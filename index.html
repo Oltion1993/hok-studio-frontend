@@ -1,0 +1,3090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HOK Studio – Characters</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-elevated: #020819;
+      --bg-card: #050b19;
+      --bg-soft: #050a16;
+      --border-subtle: #111827;
+      --border-strong: #1e293b;
+
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --muted-soft: #6b7280;
+
+      --accent: #38bdf8;
+      --accent-2: #6366f1;
+      --accent-3: #f97316;
+
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.7);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #020617 0, #020617 40%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    /* LAYOUT */
+    .app {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 230px;
+      background: #05060a;
+      border-right: 1px solid #0f172a;
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sb-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 18px;
+    }
+
+    .sb-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, #22d3ee, #6366f1 50%, #f97316 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #0b1120;
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+      margin: 0 18px 16px;
+    }
+
+    .sb-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .sb-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .sb-tagline {
+      font-size: 0.75rem;
+      color: var(--muted-soft);
+    }
+
+    .sb-nav-label {
+      margin: 18px 18px 6px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted-soft);
+    }
+
+    .sb-nav {
+      display: flex;
+      flex-direction: column;
+      margin-top: 5px;
+      gap: 6px;
+    }
+
+    .sb-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      color: #9ca3af;
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: 0.15s ease;
+    }
+
+    .sb-item:hover {
+      background: #111827;
+      color: #fff;
+    }
+
+    .sb-item.active {
+      background: #111827;
+      color: #fff;
+    }
+
+    .sb-icon {
+      width: 20px;
+      height: 20px;
+      opacity: 0.9;
+      flex-shrink: 0;
+    }
+
+    .sb-pill {
+      margin-left: auto;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      background: #0b1120;
+      border: 1px solid #1e293b;
+      color: #e5e7eb;
+    }
+
+    .sb-bottom {
+      margin-top: auto;
+      padding: 0 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sb-tutorial {
+      border-radius: 12px;
+      padding: 8px 10px;
+      background: #020819;
+      border: 1px solid #111827;
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .sb-tutorial span:first-child {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sb-tutorial-badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, #22c55e, #22c55e 60%, #15803d);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: #022c22;
+    }
+
+    .sb-footer {
+      font-size: 0.72rem;
+      color: var(--muted-soft);
+      margin-top: 2px;
+      padding: 0 0 10px;
+    }
+
+    /* MAIN */
+    .main {
+      background: radial-gradient(circle at top, #020617 0, #020617 45%, #000 100%);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 16px;
+      background: rgba(2, 6, 23, 0.88);
+      
+      border-bottom: 1px solid #0f172a;
+      position: sticky;
+      top: 0;
+      z-index: 2000;
+    }
+
+    .tb-breadcrumb {
+      font-size: 0.78rem;
+      color: var(--muted-soft);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tb-breadcrumb strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .tb-search {
+      flex: 1;
+      max-width: 420px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid #111827;
+    }
+
+    .tb-search-icon {
+      width: 18px;
+      height: 18px;
+      color: #6b7280;
+    }
+
+    .tb-search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-size: 0.85rem;
+      color: #e5e7eb;
+    }
+
+    .tb-search-input::placeholder {
+      color: #6b7280;
+    }
+
+    .tb-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tb-pill {
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid #1e293b;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    .tb-pill .count {
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      background: #0b1120;
+      color: #e5e7eb;
+    }
+
+    .btn-small {
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #e5e7eb;
+      transition: 0.16s ease;
+    }
+
+    .btn-small:hover {
+      background: #0f172a;
+    }
+
+    .btn-small.primary {
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.28);
+    }
+
+    .btn-small.primary:hover {
+      filter: brightness(1.12);
+    }
+
+    /* CONTENT */
+    .home-create {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.home-title {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.home-sub {
+  margin-top: 6px;
+  color: #9ca3af;
+  font-size: 0.95rem;
+}
+
+.home-grid {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.home-card {
+  background: radial-gradient(circle at 0 0, rgba(56,189,248,.25), #020617);
+  border: 1px solid #1e293b;
+  border-radius: 20px;
+  padding: 28px 20px;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  box-shadow: 0 16px 40px rgba(0,0,0,.6);
+}
+
+.home-card:hover {
+  transform: scale(1.05);
+  border-color: #38bdf8;
+  box-shadow: 0 22px 60px rgba(56,189,248,.35);
+}
+
+.home-icon {
+  font-size: 2.4rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.home-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.home-card p {
+  font-size: .85rem;
+  color: #9ca3af;
+}
+
+    .content {
+      flex: 1;
+      padding: 20px 24px 28px;
+    }
+
+    .content-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .ph-left h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .ph-left p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 6px;
+      max-width: 480px;
+    }
+
+    .ph-right {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .stat-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid #111827;
+      font-size: 0.78rem;
+      color: var(--muted-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 120px;
+    }
+
+    .stat-pill strong {
+      color: #e5e7eb;
+      font-size: 0.9rem;
+    }
+
+  
+    .filter-group-title {
+      font-size: 0.78rem;
+      color: var(--muted-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    
+
+    .chip.active {
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), transparent 55%);
+      border-color: #1d4ed8;
+      color: #e5e7eb;
+    }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #38bdf8;
+    }
+
+    .select-small {
+      font-size: 0.78rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid #111827;
+      background: #020617;
+      color: var(--muted);
+      outline: none;
+    }
+
+   
+
+    .cc-tag {
+      font-size: 0.75rem;
+      color: var(--muted-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .cc-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+    }
+
+    .cc-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .cc-graphic {
+      position: absolute;
+      right: -8px;
+      top: -8px;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle at 30% 10%, rgba(56, 189, 248, 0.3), transparent 60%),
+                  radial-gradient(circle at 80% 40%, rgba(236, 72, 153, 0.4), transparent 65%);
+      opacity: 0.8;
+      filter: blur(2px);
+    }
+
+    .btn-main {
+      margin-top: 6px;
+      align-self: flex-start;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      color: #f9fafb;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(56, 189, 248, 0.4);
+    }
+
+    
+
+    .block h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .block-sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .link-inline {
+      color: #60a5fa;
+      cursor: pointer;
+    }
+
+   
+    .char-img {
+  height: 160px;              /* FOTO MË TË MËDHA */
+  background-size:cover;   /* SHFAQET KOMPLET */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #020617;
+}
+
+
+
+    
+
+    .char-body {
+      padding: 9px 11px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.84rem;
+    }
+
+    .char-name {
+      font-weight: 600;
+    }
+
+    .char-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .char-footer {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-create-mini {
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: #f9fafb;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .char-pill {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid #1e293b;
+      background: #020617;
+      color: var(--muted-soft);
+      font-size: 0.7rem;
+    }
+
+    .char-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.12), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.18s ease;
+      z-index: -1;
+    }
+
+    .char-card:hover .char-glow {
+      opacity: 1;
+    }
+
+    .show-all-row {
+      text-align: right;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .show-all-row span {
+      cursor: pointer;
+      color: #93c5fd;
+    }
+
+   
+
+    .template-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+
+    .template-header h3 {
+      font-size: 1rem;
+    }
+
+    .template-header span {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+   
+
+   
+
+    
+
+    .template-meta {
+      padding: 7px 9px;
+      font-size: 0.8rem;
+    }
+
+    .footer {
+      margin-top: 26px;
+      text-align: center;
+      color: var(--muted-soft);
+      font-size: 0.78rem;
+      padding-top: 10px;
+      border-top: 1px solid #020617;
+    }
+
+    /* MODALS */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(15,23,42,0.9), rgba(0,0,0,0.9));
+      backdrop-filter: blur(18px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      
+    }
+
+
+    .modal-box {
+      background: #0b1120;
+      padding: 25px;
+      border-radius: 14px;
+      width: 380px;
+      border: 1px solid #1e293b;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-box.modal-lg {
+      width: 720px;
+      max-width: calc(100% - 32px);
+      background: linear-gradient(
+        135deg,
+        rgba(15,23,42,0.96),
+        rgba(15,23,42,0.9)
+      );
+      border-radius: 18px;
+      border: 1px solid rgba(56,189,248,0.4);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.85);
+      padding: 20px 22px 20px;
+      overflow: hidden;
+    }
+
+    .modal-box.modal-lg::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.16), transparent 60%),
+        radial-gradient(circle at 100% 0, rgba(129,140,248,0.18), transparent 60%);
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .modal-header h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .modal-header p {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .modal-close,
+    .modal-close-char,
+    .modal-close-img,
+    .modal-close-vid,
+    .modal-close-aud {
+      border: none;
+      background: transparent;
+      color: #9ca3af;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .option-card {
+      position: relative;
+      background: radial-gradient(circle at 0 0, rgba(56,189,248,0.12), rgba(15,23,42,0.95));
+      border-radius: 14px;
+      padding: 14px 14px 12px;
+      border: 1px solid rgba(30,64,175,0.9);
+      box-shadow: 0 14px 30px rgba(15,23,42,0.9);
+      cursor: pointer;
+      text-align: left;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    }
+
+    .option-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(15,23,42,1);
+      border-color: rgba(56,189,248,0.9);
+    }
+
+    .option-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(30,64,175,0.9);
+      color: #93c5fd;
+      margin-bottom: 6px;
+    }
+
+    .option-card h3 {
+      font-size: 0.98rem;
+      margin-bottom: 4px;
+    }
+
+    .option-card p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .option-foot {
+      font-size: 0.8rem;
+      color: #93c5fd;
+    }
+
+    .modal-columns {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 18px;
+      margin-top: 8px;
+    }
+
+    .modal-col h3 {
+      font-size: 0.96rem;
+      margin-bottom: 4px;
+    }
+
+    .modal-text {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .upload-area {
+      position: relative;
+      border-radius: 14px;
+      border: 1px dashed rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.9);
+      padding: 16px;
+      cursor: pointer;
+      transition: border-color 0.12s ease, background 0.12s ease;
+    }
+
+    .upload-area:hover {
+      border-color: rgba(56,189,248,0.9);
+      background: rgba(15,23,42,0.98);
+    }
+
+    .upload-inner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .upload-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, #38bdf8, #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .upload-text {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.8rem;
+    }
+
+    .upload-text strong {
+      font-size: 0.85rem;
+    }
+
+    .upload-text span {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .upload-input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .hint {
+      margin-top: 6px;
+      font-size: 0.76rem;
+      color: var(--muted-soft);
+    }
+
+    .thumb-row {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .thumb-row img {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid #1f2937;
+    }
+
+    .modal-textarea {
+      width: 100%;
+      border-radius: 10px;
+      background: #020617;
+      border: 1px solid #1f2937;
+      color: #e5e7eb;
+      font-size: 0.82rem;
+      padding: 8px 9px;
+      resize: vertical;
+    }
+
+    .modal-textarea::placeholder {
+      color: #6b7280;
+    }
+
+    .modal-meta {
+      margin-top: 6px;
+      font-size: 0.76rem;
+      color: var(--muted-soft);
+    }
+
+    .btn-main.full {
+      margin-top: 10px;
+      width: 100%;
+      padding: 9px 0;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      color: #f9fafb;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(56,189,248,0.4);
+    }
+
+    .btn-main.full:disabled {
+      opacity: 0.6;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .loading {
+      display: none;
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      align-items: center;
+      gap: 6px;
+    }
+
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      border: 2px solid rgba(148,163,184,0.5);
+      border-top-color: #38bdf8;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .app {
+        grid-template-columns: 200px minmax(0, 1fr);
+      }
+
+      .char-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .create-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .ph-right {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .app {
+        grid-template-columns: 70px minmax(0, 1fr);
+      }
+
+      .sidebar {
+        padding-inline: 10px;
+      }
+
+      .sb-title,
+      .sb-nav-label,
+      .sb-footer,
+      .sb-tutorial span:nth-child(2) {
+        display: none;
+      }
+
+      .sb-item {
+        justify-content: center;
+        padding-inline: 0;
+      }
+
+      .sb-item span {
+        display: none;
+      }
+
+      .sb-pill {
+        display: none;
+      }
+
+      .sb-icon {
+        width: 20px;
+        height: 20px;
+      }
+
+      .char-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 12px;
+      }
+
+      .tb-search {
+        order: 3;
+        width: 100%;
+        max-width: none;
+      }
+
+      .content {
+        padding-inline: 16px;
+      }
+
+      .create-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .char-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .template-row {
+        grid-auto-columns: minmax(170px, 75%);
+      }
+
+      .modal-columns {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .modal-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  /* === CHARACTER GRID: SMALL CARDS, 3 PER ROW === */
+
+.char-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Make cards smaller */
+.char-card {
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* Smaller image */
+.char-img {
+  height: 700px;
+}
+
+/* Compact body */
+.char-body {
+  padding: 8px 10px;
+  gap: 3px;
+}
+
+/* Smaller title */
+.char-name {
+  font-size: 0.85rem;
+}
+
+/* Smaller meta */
+.char-meta {
+  font-size: 0.72rem;
+}
+
+/* Footer tighter */
+.char-footer {
+  margin-top: 6px;
+}
+
+/* Smaller button */
+.btn-create-mini {
+  font-size: 0.7rem;
+  padding: 4px 9px;
+}
+
+
+.coming-soon h2 {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.coming-soon p {
+  font-size: 16px;
+  opacity: 0.85;
+}
+/* VOICE MODAL */
+.voice-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  backdrop-filter: blur(14px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.voice-modal {
+  width: 420px;
+  max-width: 90%;
+  background: #0b1120;
+  border: 1px solid #1e293b;
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.8);
+}
+
+.voice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.voice-header h3 {
+  font-size: 1.1rem;
+}
+
+.voice-filters {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.voice-filters select {
+  background: #020617;
+  border: 1px solid #1f2937;
+  color: #e5e7eb;
+  border-radius: 10px;
+  padding: 6px 8px;
+  font-size: .8rem;
+}
+
+.voice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.voice-item {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #020617;
+  border: 1px solid #1f2937;
+  cursor: pointer;
+  transition: .15s;
+}
+
+.voice-item:hover {
+  background: #111827;
+}
+
+.voice-item.active {
+  border-color: #38bdf8;
+  background: radial-gradient(circle at 0 0, rgba(56,189,248,.25), #020617);
+}
+@media (max-width: 900px) {
+  .char-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 500px) {
+  .char-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.section-divider {
+  margin: 48px 0 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(148,163,184,0.12);
+}
+
+.section-divider h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.section-divider p {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  max-width: 520px;
+}
+.template-strip {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(148,163,184,0.12);
+}
+
+.template-header h3 {
+  font-size: 1.05rem;
+}
+
+.template-header span {
+  font-size: 0.8rem;
+  color: var(--muted-soft);
+}
+
+/* make templates less aggressive */
+.template-img {
+  height: 56px;
+  border-radius: 10px;
+  opacity: 0.85;
+}
+.modal-upgrade-backdrop {
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.75);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+
+.upgrade-panel {
+  background:#05060a; width:960px; max-width:95%; padding:32px;
+  border-radius:20px; border:1px solid #0f172a;
+  box-shadow:0 40px 80px rgba(0,0,0,.9);
+}
+
+.upgrade-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+}
+
+.upgrade-header h2 { font-size:22px; margin:0; font-weight:700; color:#f9fafb; }
+
+.upgrade-close {
+  background:none;
+  border:none;
+  color:#888;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.billing-switch {
+  display:flex; justify-content:center; gap:0; margin:0 auto 24px;
+  background:#0f172a; border:1px solid #1e293b; border-radius:10px;
+  padding:4px; width:fit-content;
+}
+
+.switch-option { padding:7px 20px; border-radius:7px; cursor:pointer; border:none; color:#6b7280; font-size:13px; font-weight:500; transition:.15s; }
+
+.switch-option.active { background:#1e293b; color:#e5e7eb; }
+
+.upgrade-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+
+.plan-box {
+  border-radius:16px; padding:20px; display:flex; flex-direction:column;
+  position:relative; overflow:hidden; transition:.2s ease; cursor:pointer;
+  background:linear-gradient(135deg,#0f172a,#020617); border:1px solid #1e293b;
+}
+.plan-box:hover { transform:translateY(-3px); }
+.plan-box:nth-child(2) { background:linear-gradient(135deg,#0c1a2e,#020617); border-color:#1d4ed8; }
+.plan-box:nth-child(3) { background:linear-gradient(135deg,#150d2e,#020617); border-color:#6d28d9; }
+.plan-box:nth-child(4) { background:linear-gradient(135deg,#1a0a0a,#020617); border-color:#dc2626; }
+
+.plan-title { font-size:16px; margin:0 0 4px; font-weight:700; color:#f9fafb; }
+
+.plan-price { font-size:30px; font-weight:800; margin-bottom:14px; color:#f9fafb; }
+
+.plan-list { margin-bottom:16px; color:#9ca3af; font-size:13px; line-height:1.8; flex:1; }
+
+
+
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sb-logo">HOK</div>
+
+      <nav class="sb-nav">
+        <a class="sb-item active" href="#">
+          <i data-lucide="home" class="sb-icon"></i>
+          <span>Home</span>
+        </a>
+        <a class="sb-item" href="#">
+          <i data-lucide="users" class="sb-icon"></i>
+          <span>Characters</span>
+        </a>
+        <a class="sb-item" href="#">
+          <i data-lucide="image" class="sb-icon"></i>
+          <span>Images</span>
+        </a>
+        <a class="sb-item" href="#">
+          <i data-lucide="clapperboard" class="sb-icon"></i>
+          <span>Videos</span>
+        </a>
+        <a class="sb-item" href="#">
+          <i data-lucide="volume-2" class="sb-icon"></i>
+          <span>Audio</span>
+        </a>
+        <a class="sb-item" href="#">
+          <i data-lucide="settings" class="sb-icon"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sb-bottom">
+        <button class="sb-tutorial">
+          <span>
+            <span class="sb-tutorial-badge">?</span>
+            <span>3-step intro · 40s</span>
+          </span>
+          <span>▶</span>
+        </button>
+        <div class="sb-footer">
+          HOK Studio © 2025 · Made for creators.
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="tb-breadcrumb">
+          <span>Workspace</span> / <strong>Characters</strong>
+        </div>
+
+        <div class="tb-search">
+          <div class="tb-search-icon"></div>
+          <input class="tb-search-input" type="text" placeholder="Search characters, templates..." />
+        </div>
+
+        <div class="tb-actions">
+          <div class="tb-pill" id="btnUsage">
+            <span>Usage</span>
+            <span class="count">128/500</span>
+          </div>
+          <button class="btn-small" id="btnUpgrade">Upgrade</button>
+          <button class="btn-small primary" id="btnOpenCreate">+ Create</button>
+          <button class="btn-small" id="btnSignIn">Sign in</button>
+          <button class="btn-small primary" id="btnSignUp">Sign up</button>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+    
+           
+      <section class="home-create">
+        <h1 class="home-title">Create with HOK Studio</h1>
+        <p class="home-sub">
+          Generate characters, images, videos and audio using AI.
+        </p>
+      
+        <div class="home-grid">
+          <div class="home-card" data-open="character">
+            <span class="home-icon">🎭</span>
+            <h3>Create character</h3>
+            <p>Build reusable mascots and heroes.</p>
+          </div>
+      
+          <div class="home-card" data-open="image">
+            <span class="home-icon">🖼️</span>
+            <h3>Create image</h3>
+            <p>Generate thumbnails and high quality visuals.</p>
+          </div>
+      
+          <div class="home-card" data-open="video">
+            <span class="home-icon">🎬</span>
+            <h3>Create video</h3>
+            <p>Create short clips for TikTok and Reels.</p>
+          </div>
+      
+          <div class="home-card" data-open="audio">
+            <span class="home-icon">🎧</span>
+            <h3>Create audio</h3>
+            <p>Generate voice, narration or music.</p>
+          </div>
+        </div>
+      </section>
+      
+      <div class="section-divider">
+        <h2>Your characters</h2>
+        <p>
+          These are characters you’ve created or can reuse across images, video and audio.
+        </p>
+      </div>
+      
+
+          <!-- CREATE CARDS -->
+         
+
+            <div class="char-grid">
+              <!-- 1 -->
+              <article class="char-card">
+                <div class="char-glow"></div>
+                <div class="char-img" style="background-image:url('images/ai-human-woman.jpg');"></div>
+                <div class="char-body">
+                  <div class="char-name">AI Human Eva</div>
+                  <div class="char-meta">Realistic · AI influencer</div>
+                  <div class="char-footer">
+                    <button class="btn-create-mini">Create</button>
+                    <span class="char-pill">Human</span>
+                  </div>
+                </div>
+              </article>
+              <article class="char-card">
+                <div class="char-glow"></div>
+                <div class="char-img" style="background-image:url('images/ai-human-man.jpg');"></div>
+                <div class="char-body">
+                  <div class="char-name">AI Human Leo</div>
+                  <div class="char-meta">Photoreal · Presenter</div>
+                  <div class="char-footer">
+                    <button class="btn-create-mini">Create</button>
+                    <span class="char-pill">Human</span>
+                  </div>
+                </div>
+              </article>
+              <article class="char-card">
+                <div class="char-glow"></div>
+                <div class="char-img" style="background-image:url('images/ai-cat.jpg');"></div>
+                <div class="char-body">
+                  <div class="char-name">Neo Cat</div>
+                  <div class="char-meta">AI · Cute mascot</div>
+                  <div class="char-footer">
+                    <button class="btn-create-mini">Create</button>
+                    <span class="char-pill">Animal</span>
+                  </div>
+                </div>
+              </article>
+              <article class="char-card">
+                <div class="char-glow"></div>
+                <div class="char-img" style="background-image:url('images/ai-dog.jpg');"></div>
+                <div class="char-body">
+                  <div class="char-name">Pixel Dog</div>
+                  <div class="char-meta">AI · Friendly dog</div>
+                  <div class="char-footer">
+                    <button class="btn-create-mini">Create</button>
+                    <span class="char-pill">Animal</span>
+                  </div>
+                </div>
+              </article>
+              <article class="char-card">
+                <div class="char-glow"></div>
+                <div class="char-img" style="background-image:url('images/anime-girl.jpg');"></div>
+                <div class="char-body">
+                  <div class="char-name">Aiko</div>
+                  <div class="char-meta">Anime · Stylized girl</div>
+                  <div class="char-footer">
+                    <button class="btn-create-mini">Create</button>
+                    <span class="char-pill">Anime</span>
+                  </div>
+                </div>
+              </article>
+              <article class="char-card">
+                <div class="char-glow"></div>
+                <div class="char-img" style="background-image:url('images/anime-boy.jpg');"></div>
+                <div class="char-body">
+                  <div class="char-name">Kiro</div>
+                  <div class="char-meta">Anime · Action hero</div>
+                  <div class="char-footer">
+                    <button class="btn-create-mini">Create</button>
+                    <span class="char-pill">Anime</span>
+                  </div>
+                </div>
+              </article>
+              
+              <article class="char-card">
+                <div class="char-glow"></div>
+                <div class="char-img" style="background-image:url('images/veo-mascot.jpg');"></div>
+                <div class="char-body">
+                  <div class="char-name">Runway Character</div>
+                  <div class="char-meta">AI · Urban mascot</div>
+                  <div class="char-footer">
+                    <button class="btn-create-mini">Create</button>
+                    <span class="char-pill">Comedy</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 2 -->
+              <article class="char-card">
+                <div class="char-glow"></div>
+                <div class="char-img" style="background-image:url('images/bruno-shark.jpg');"></div>
+                <div class="char-body">
+                  <div class="char-name">Bruno Sharkstep</div>
+                  <div class="char-meta">3D · Dancing shark hero</div>
+                  <div class="char-footer">
+                    <button class="btn-create-mini">Create</button>
+                    <span class="char-pill">High energy</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 3 -->
+              <article class="char-card">
+                <div class="char-glow"></div>
+                <div class="char-img" style="background-image:url('images/rocket-goose.jpg');"></div>
+                <div class="char-body">
+                  <div class="char-name">Rocket Goose</div>
+                  <div class="char-meta">Stylized · Jet-powered bird</div>
+                  <div class="char-footer">
+                    <button class="btn-create-mini">Create</button>
+                    <span class="char-pill">Action</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 4 -->
+              <article class="char-card">
+                <div class="char-glow"></div>
+                <div class="char-img" style="background-image:url('images/forest-giant.jpg');"></div>
+                <div class="char-body">
+                  <div class="char-name">Forest Giant</div>
+                  <div class="char-meta">Fantasy · Mo-cap friendly</div>
+                  <div class="char-footer">
+                    <button class="btn-create-mini">Create</button>
+                    <span class="char-pill">Fantasy</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 5 -->
+              <article class="char-card">
+                <div class="char-glow"></div>
+                <div class="char-img" style="background-image:url('images/banana-chimp.jpg');"></div>
+                <div class="char-body">
+                  <div class="char-name">Flux Chimp</div>
+                  <div class="char-meta">AI · Meme ready</div>
+                  <div class="char-footer">
+                    <button class="btn-create-mini">Create</button>
+                    <span class="char-pill">Meme</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 6 -->
+              <article class="char-card">
+                <div class="char-glow"></div>
+                <div class="char-img" style="background-image:url('images/sky-bomber.jpg');"></div>
+                <div class="char-body">
+                  <div class="char-name">Sky Bomber</div>
+                  <div class="char-meta">Stylized · Anime + 3D mix</div>
+                  <div class="char-footer">
+                    <button class="btn-create-mini">Create</button>
+                    <span class="char-pill">Epic</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 7 -->
+              <article class="char-card">
+                <div class="char-glow"></div>
+                <div class="char-img" style="background-image:url('images/ballerina-cup.jpg');"></div>
+                <div class="char-body">
+                  <div class="char-name">Ballerina Cup</div>
+                  <div class="char-meta">3D · Coffee ballerina</div>
+                  <div class="char-footer">
+                    <button class="btn-create-mini">Create</button>
+                    <span class="char-pill">Cute</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 8 -->
+              <article class="char-card">
+                <div class="char-glow"></div>
+                <div class="char-img" style="background-image:url('images/cafe-bot.jpg');"></div>
+                <div class="char-body">
+                  <div class="char-name">Cafe Bot</div>
+                  <div class="char-meta">Robot · Short-form ads</div>
+                  <div class="char-footer">
+                    <button class="btn-create-mini">Create</button>
+                    <span class="char-pill">Story</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="show-all-row">
+              <span id="btnShowAllChars">Show all characters ▾</span>
+            </div>
+          </section>
+
+          
+          <!-- FOOTER -->
+          <footer class="footer">HOK Studio · Character workspace</footer>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- BASE CREATE MODAL -->
+  <div id="createModal" class="modal-backdrop">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div>
+          <h2>Create new</h2>
+          <p>Choose what you want to generate with HOK Studio.</p>
+        </div>
+        <button class="modal-close">✕</button>
+      </div>
+
+      <div class="modal-grid">
+        <!-- Character -->
+        <button class="option-card modal-btn-char">
+          <div class="option-badge">Characters</div>
+          <h3>Character</h3>
+          <p>Build a reusable mascot or hero for your TikTok videos.</p>
+          <span class="option-foot">Start →</span>
+        </button>
+
+        <!-- Image -->
+        <button class="option-card modal-btn-img">
+          <div class="option-badge">Images</div>
+          <h3>Image</h3>
+          <p>Generate a single high-quality image or thumbnail.</p>
+          <span class="option-foot">Start →</span>
+        </button>
+
+        <!-- Video -->
+        <button class="option-card modal-btn-vid">
+          <div class="option-badge">Video</div>
+          <h3>Video</h3>
+          <p>Create short clips ready for Reels / TikTok.</p>
+          <span class="option-foot">Start →</span>
+        </button>
+
+        <!-- Audio -->
+        <button class="option-card modal-btn-aud">
+          <div class="option-badge">Audio</div>
+          <h3>Audio (Suno)</h3>
+          <p>Generate music using text and AI voices.</p>
+          <span class="option-foot">Start →</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE CHARACTER -->
+  
+  
+  
+<div id="modalCharacter" class="modal-backdrop">
+  <div class="modal-box modal-lg">
+    <div class="modal-header">
+      <div>
+        <h2>Create character</h2>
+        <p>
+          Create a reusable character using text
+        </p>
+      </div>
+      <button class="modal-close-char">✕</button>
+    </div>
+
+    <div class="modal-columns">
+      <!-- LEFT: PROMPT -->
+      <div class="modal-col">
+        <h3>Character description</h3>
+        <p class="modal-text">
+          Describe the character’s look, style, personality and universe.
+        </p>
+
+        <textarea
+          class="modal-textarea"
+          rows="8"
+          id="charPrompt"
+          placeholder="Example: Cartoon shark mascot with sunglasses, colorful hoodie, playful attitude, social media vibe."
+        ></textarea>
+          
+        <div class="modal-meta">
+          <span>Used across images, video and audio.</span>
+        </div>
+        <h3 style="margin-top:14px;">Credits</h3>
+        <p class="modal-text" style="display:flex;justify-content:space-between;">
+          <span>Available: <strong id="charCreditsAvailable">0</strong></span>
+          <span>Cost: <strong id="charCreditsCost">0</strong></span>
+        </p>
+        
+        <button class="btn-main full" id="btnCreateCharacter">
+          Create character
+        </button>
+        <div id="previewBoxCharacter" style="margin-top:12px;min-height:160px;border:1px dashed #1e293b;border-radius:14px;background:#020617;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+  <div style="text-align:center;color:#374151;">
+    <div style="font-size:2rem;margin-bottom:8px;">🎭</div>
+    <div style="font-size:.78rem;color:#4b5563;">Your character will appear here</div>
+  </div>
+</div>
+
+        <div class="loading" id="charLoading">
+          <div class="spinner"></div>
+          <span>Creating character…</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: UPLOAD + MODEL -->
+      <div class="modal-col">
+        <h3>Upload reference</h3>
+        <p class="modal-text">
+          Upload an image or sketch to lock visual identity.
+        </p>
+
+        <div class="upload-area">
+     
+ 
+          <div class="upload-inner">
+            <div class="upload-icon">🎭</div>
+            <div class="upload-text">
+              <strong style="margin: 0 auto;">Click or drop an image</strong>
+              <span>PNG / JPG · Optional</span>
+            </div>
+          </div>	
+          <input
+            type="file"
+            class="upload-input"
+            id="charFile"
+            accept="image/*"
+          />
+        </div>
+            <!-- CAMERA (CHARACTER) -->
+<div style="margin-top:12px;">
+  <button type="button"
+    class="btn-main full"
+    id="btnCharOpenCamera"
+    style="background:linear-gradient(135deg,#22d3ee,#6366f1);box-shadow:0 12px 30px rgba(99,102,241,.45);">
+    📷 Use Camera
+  </button>
+</div>
+
+<div id="charCameraBox" style="display:none;margin-top:10px;">
+  <video id="charCameraVideo" autoplay playsinline
+    style="width:100%;border-radius:14px;border:1px solid #1f2937;"></video>
+
+  <button class="btn-small primary" id="btnCharTakePhoto" style="margin-top:8px;">
+    Capture photo
+  </button>
+
+  <canvas id="charCameraCanvas" style="display:none;"></canvas>
+</div>
+        <p class="hint">
+          Tip: Clear frontal images work best.
+        </p>
+
+        <h3 style="margin-top:14px;">Character model</h3>
+        <p class="modal-text">
+          Choose which AI model defines the character style.
+        </p>
+
+        <select
+          class="select-small"
+          id="charModel"
+          style="width:100%;margin-bottom:8px;"
+        >
+        <option value="flux">Flux · High quality</option>
+        <option value="flux">Flux · Creative</option>
+        <option value="luma-ray">Luma Ray · Story-driven</option>
+        <option value="kling">Kling · Prompt-accurate</option>
+        <option value="sdxl">SDXL · High quality</option>
+          
+        </select>
+
+        <div class="modal-meta">
+          <span>Characters can be reused everywhere.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- MODAL: CREATE IMAGE -->
+ <!-- MODAL: CREATE IMAGE (UPGRADED) -->
+<div id="modalImage" class="modal-backdrop">
+  <div class="modal-box modal-lg">
+    <div class="modal-header">
+      <div>
+        <h2>Create image</h2>
+        <p>
+          Generate images using Text→Image or Image→Image with characters, camera and credits.
+        </p>
+      </div>
+      <button class="modal-close-img">✕</button>
+    </div>
+
+    <div class="modal-columns">
+      <!-- LEFT: MODE + PROMPT + GENERATE -->
+      <div class="modal-col">
+        <h3>Generation mode</h3>
+        <p class="modal-text">Choose how you want to create the image.</p>
+
+        <select class="select-small" id="imgMode" style="width:100%;margin-bottom:10px;">
+          <option value="text2image">Text → Image</option>
+          <option value="image2image">Image → Image</option>
+        </select>
+
+        <h3>Image prompt</h3>
+        <p class="modal-text">Describe scene, lighting, style and mood.</p>
+
+        <textarea
+          class="modal-textarea"
+          rows="7"
+          id="imgPrompt"
+          placeholder="Example: Cinematic portrait of a cartoon shark influencer, neon lighting, high detail, 3D style."
+        ></textarea>
+
+        <div class="modal-meta">
+          <span>Tip: Add style + camera + colors for best results.</span>
+        </div>
+
+        <h3 style="margin-top:14px;">Credits</h3>
+        <p class="modal-text" style="display:flex;justify-content:space-between;gap:10px;">
+          <span>Available: <strong id="imgCreditsAvailable">0</strong></span>
+          <span>Estimated cost: <strong id="imgCreditsCost">0</strong></span>
+        </p>
+
+        <button class="btn-main full" id="btnCreateImage">
+          Generate image
+        </button>
+
+        <div id="previewBoxImage" style="margin-top:12px;min-height:160px;border:1px dashed #1e293b;border-radius:14px;background:#020617;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+  <div style="text-align:center;color:#374151;">
+    <div style="font-size:2rem;margin-bottom:8px;">🖼️</div>
+    <div style="font-size:.78rem;color:#4b5563;">Your image will appear here</div>
+  </div>
+</div>
+
+        <div class="loading" id="imgLoading">
+          <div class="spinner"></div>
+          <span>Generating image…</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: CHARACTER + UPLOAD + CAMERA + MODEL + ASPECT -->
+      <div class="modal-col">
+        <!-- CHARACTER -->
+        <h3>Character (optional)</h3>
+        <p class="modal-text">Use one of your characters, or a HOK Studio preset.</p>
+
+        <select class="select-small" id="imgCharacter" style="width:100%;margin-bottom:8px;">
+          <option value="">No character</option>
+          <optgroup label="My Characters">
+            <option value="my_shark">My Shark Mascot</option>
+            <option value="my_robot">My Robot Hero</option>
+          </optgroup>
+          <optgroup label="HOK Studio Characters">
+            <option value="hok_runway">Runway Character</option>
+            <option value="hok_flux">Flux Character</option>
+            <option value="hok_bruno_sharkstep">Bruno Sharkstep</option>
+          </optgroup>
+        </select>
+
+        <p class="hint">Later we’ll load your real saved characters automatically.</p>
+
+        <!-- UPLOAD -->
+        <h3 style="margin-top:14px;">Upload reference (optional)</h3>
+        <p class="modal-text" id="imgUploadHelp">
+          Upload an image reference. Required for Image → Image mode.
+        </p>
+
+        <div class="upload-area">
+          <div class="upload-inner">
+            <div class="upload-icon">🖼️</div>
+            <div class="upload-text">
+              <strong id="imgUploadTitle">Click or drop an image</strong>
+              <span id="imgUploadTypes">PNG / JPG · Optional</span>
+            </div>
+          </div>
+          <input
+            type="file"
+            class="upload-input"
+            id="imgFile"
+            accept="image/*"
+          />
+        </div>
+
+        <p class="hint" id="imgUploadHint">
+          • For Image → Image, upload is required.
+        </p>
+
+        <!-- CAMERA (VISIBLE / RECOMMENDED) -->
+        <div style="margin-top:12px;">
+          <button type="button"
+            class="btn-main full"
+            id="btnImgOpenCamera"
+            style="background:linear-gradient(135deg,#22d3ee,#6366f1);box-shadow:0 12px 30px rgba(99,102,241,.45);">
+            📷 Use Camera
+          </button>
+        </div>
+
+        <div id="imgCameraBox" style="display:none;margin-top:10px;">
+          <video id="imgCameraVideo" autoplay playsinline
+            style="width:100%;border-radius:14px;border:1px solid #1f2937;"></video>
+
+          <button class="btn-small primary" id="btnImgTakePhoto" style="margin-top:8px;">
+            Capture photo
+          </button>
+
+          <canvas id="imgCameraCanvas" style="display:none;"></canvas>
+        </div>
+
+        <!-- MODEL -->
+        <h3 style="margin-top:14px;">Model</h3>
+        <p class="modal-text">Choose the engine for image generation.</p>
+
+        <select class="select-small" id="imgModel" style="width:100%;margin-bottom:8px;">
+          <option value="flux">Flux · High quality</option>
+          <option value="flux">Flux · Fast & creative</option>
+          <option value="sdxl">SDXL · Detailed stills</option>
+        </select>
+        
+
+        <!-- ASPECT -->
+        <h3 style="margin-top:14px;">Aspect ratio</h3>
+        <p class="modal-text">Optimize for your platform.</p>
+
+        <select class="select-small" id="imgAspect" style="width:100%;margin-bottom:8px;">
+          <option value="9:16">TikTok / Reels (9:16)</option>
+          <option value="4:5">Instagram (4:5)</option>
+          <option value="1:1">Square (1:1)</option>
+          <option value="16:9">Landscape (16:9)</option>
+        </select>
+
+        <div class="modal-meta" style="margin-top:10px;">
+          <span>Cost is calculated from model + aspect + mode.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+  <!-- MODAL: CREATE VIDEO -->
+    <!-- MODAL: CREATE VIDEO -->
+    <div id="modalVideo" class="modal-backdrop">
+      <div class="modal-box modal-lg">
+        <div class="modal-header">
+          <div>
+            <h2>Create video</h2>
+            <p>
+              Generate video using Text→Video, Image→Video, Video→Video, or Story→Video.
+            </p>
+          </div>
+          <button class="modal-close-vid">✕</button>
+        </div>
+
+        <div class="modal-columns">
+          <!-- LEFT: MODE + PROMPT + GENERATE -->
+          <div class="modal-col">
+            <h3>Generation mode</h3>
+            <p class="modal-text">Choose how you want to generate the video.</p>
+
+            <select class="select-small" id="vidMode" style="width:100%;margin-bottom:10px;">
+              <option value="text2video">Text → Video</option>
+              <option value="image2video">Image → Video</option>
+              <option value="video2video">Video → Video</option>
+              <option value="story2video">Story → Video</option>
+            </select>
+
+            <div id="vidPromptBlock">
+              <h3>Video prompt</h3>
+              <p class="modal-text">Describe the scene, camera moves and mood.</p>
+
+              <textarea
+                class="modal-textarea"
+                rows="7"
+                id="vidPrompt"
+                placeholder="Example: 10s looping shot of a shark mascot dancing in a neon-lit street, smooth camera move."
+              ></textarea>
+
+              <div class="modal-meta">
+                <span>Tip: Be specific about motion + lighting.</span>
+              </div>
+            </div>
+
+            <div id="vidStoryBlock" style="display:none;margin-top:12px;">
+              <h3>Story / Script</h3>
+              <p class="modal-text">Write the story beats. One line per scene works best.</p>
+
+              <textarea
+                class="modal-textarea"
+                rows="7"
+                id="vidStory"
+                placeholder="Scene 1: ...&#10;Scene 2: ...&#10;Scene 3: ..."
+              ></textarea>
+
+              <div class="modal-meta">
+                <span>Story mode may cost more credits.</span>
+              </div>
+            </div>
+
+            <h3 style="margin-top:14px;">Credits</h3>
+            <p class="modal-text" style="display:flex;justify-content:space-between;gap:10px;">
+              <span>Available: <strong id="vidCreditsAvailable">0</strong></span>
+              <span>Estimated cost: <strong id="vidCreditsCost">0</strong></span>
+            </p>
+
+            <button class="btn-main full" id="btnCreateVideo">
+              Generate video
+            </button>
+
+            <div id="previewBoxVideo" style="margin-top:12px;min-height:160px;border:1px dashed #1e293b;border-radius:14px;background:#020617;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+  <div style="text-align:center;color:#374151;">
+    <div style="font-size:2rem;margin-bottom:8px;">🎬</div>
+    <div style="font-size:.78rem;color:#4b5563;">Your video will appear here</div>
+  </div>
+</div>
+
+            <div class="loading" id="vidLoading">
+              <div class="spinner"></div>
+              <span>Creating video…</span>
+            </div>
+          </div>
+
+          <!-- RIGHT: CHARACTER + UPLOAD + MODEL + FORMAT -->
+          <div class="modal-col">
+            <!-- CHARACTER -->
+            <h3>Character (optional)</h3>
+            <p class="modal-text">Use one of your characters, or a HOK Studio preset.</p>
+
+            <select class="select-small" id="vidCharacter" style="width:100%;margin-bottom:8px;">
+              <option value="">No character</option>
+              <optgroup label="My Characters">
+                <option value="my_shark">My Shark Mascot</option>
+                <option value="my_robot">My Robot Hero</option>
+              </optgroup>
+              <optgroup label="HOK Studio Characters">
+                <option value="flux">Flux · High quality</option>
+                 <option value="flux">Flux · Creative</option>
+                 <option value="luma-ray">Luma Ray · Story-driven</option>
+                 <option value="kling">Kling · Prompt-accurate</option>
+                 <option value="sdxl">SDXL · High quality</option>
+
+              </optgroup>
+            </select>
+
+            <p class="hint">Later we will replace these with your real saved characters.</p>
+
+            <!-- UPLOAD -->
+            <h3 style="margin-top:14px;">Upload reference (optional)</h3>
+            <p class="modal-text" id="vidUploadHelp">
+              Upload an image/video reference depending on the mode.
+            </p>
+
+            <div class="upload-area">
+              <div class="upload-inner">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">
+                  <strong id="vidUploadTitle">Click or drop a file</strong>
+                  <span id="vidUploadTypes">Image / Video · Optional</span>
+                </div>
+              </div>
+              <input
+                type="file"
+                class="upload-input"
+                id="vidFile"
+                accept="image/*,video/*"
+              />
+            </div>
+
+            <p class="hint" id="vidUploadHint">
+              • PNG / JPG or MP4 / MOV · Optional. (Demo)
+            </p>
+            <!-- CAMERA -->
+<div style="margin-top:10px;">
+  <button type="button" class="btn-small" id="btnOpenCamera">
+    📷 Use Camera
+  </button>
+</div>
+
+<div id="cameraBox" style="display:none;margin-top:10px;">
+  <video id="cameraVideo" autoplay playsinline style="width:100%;border-radius:12px;border:1px solid #1f2937;"></video>
+
+  <button class="btn-small primary" id="btnTakePhoto" style="margin-top:8px;">
+    Take photo
+  </button>
+
+  <canvas id="cameraCanvas" style="display:none;"></canvas>
+</div>
+
+            <!-- MODEL -->
+            <h3 style="margin-top:14px;">Model</h3>
+            <p class="modal-text">Choose the engine for generation.</p>
+
+            <select class="select-small" id="vidModel" style="width:100%;margin-bottom:8px;">
+              <option value="runway-gen3">Runway Gen-4 · Cinematic</option>
+              <option value="luma-ray">Luma Ray · Story-driven</option>
+              <option value="kling">Kling 2.0 · Prompt-accurate</option>
+              <option value="flux">Flux · Fast generation</option>
+              
+            </select>
+
+            <!-- FORMAT -->
+            <h3 style="margin-top:14px;">Format</h3>
+            <p class="modal-text">Preconfigure for your platform.</p>
+
+            <select class="select-small" id="vidAspect" style="width:100%;margin-bottom:8px;">
+              <option value="9:16">TikTok / Reels (9:16)</option>
+              <option value="1:1">Square (1:1)</option>
+              <option value="16:9">Cinema / YouTube (16:9)</option>
+            </select>
+
+            <h3 style="margin-top:14px;">Duration</h3>
+            <p class="modal-text">Choose the clip length.</p>
+
+            <select class="select-small" id="vidDuration" style="width:100%;margin-bottom:8px;">
+              <option value="5">5s</option>
+              <option value="10">10s</option>
+              <option value="15">15s</option>
+              <option value="30">30s</option>
+              <option value="60">60s (1 min)</option>
+              <option value="120">120s (2 min)</option>
+            </select>
+
+            <div class="modal-meta" style="margin-top:10px;">
+              <span>Cost is calculated from model + duration + mode.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  
+    <!-- MODAL: CREATE AUDIO -->
+    <!-- MODAL: CREATE AUDIO (PRO) -->
+<div id="modalAudio" class="modal-backdrop">
+  <div class="modal-box modal-lg">
+    <div class="modal-header">
+      <div>
+        <h2>Create audio</h2>
+        <p>Generate voice, narration or audio from text, video or files.</p>
+      </div>
+      <button class="modal-close-aud modal-close-voice">✕</button>
+    </div>
+
+    <div class="modal-columns">
+      <!-- LEFT -->
+      <div class="modal-col">
+        <h3>Generation mode</h3>
+        <select class="select-small" id="audMode" style="width:100%;margin-bottom:10px;">
+          <option value="text2audio">Text → Audio</option>
+          <option value="video2audio">Video → Audio</option>
+          <option value="audio2audio">Audio → Audio</option>
+          <option value="story2audio">Story → Audio</option>
+        </select>
+
+        <h3>Script / Prompt</h3>
+        <textarea
+          class="modal-textarea"
+          rows="7"
+          id="audPrompt"
+          placeholder="Write what the voice should say..."
+        ></textarea>
+
+        <h3 style="margin-top:14px;">Credits</h3>
+        <p class="modal-text" style="display:flex;justify-content:space-between;">
+          <span>Available: <strong id="audCreditsAvailable">0</strong></span>
+          <span>Estimated cost: <strong id="audCreditsCost">0</strong></span>
+        </p>
+
+        <button class="btn-main full" id="btnCreateAudio">
+          Generate audio
+        </button>
+
+        <div id="previewBoxAudio" style="margin-top:12px;min-height:100px;border:1px dashed #1e293b;border-radius:14px;background:#020617;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+  <div style="text-align:center;color:#374151;">
+    <div style="font-size:2rem;margin-bottom:8px;">🎧</div>
+    <div style="font-size:.78rem;color:#4b5563;">Your audio will appear here</div>
+  </div>
+</div>
+
+        <div class="loading" id="audLoading">
+          <div class="spinner"></div>
+          <span>Generating audio…</span>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="modal-col">
+        <!-- CHARACTER -->
+        <h3>Character (optional)</h3>
+        <select class="select-small" id="audCharacter" style="width:100%;margin-bottom:8px;">
+          <option value="">No character</option>
+          <optgroup label="My Characters">
+            <option value="my_narrator">My Narrator</option>
+          </optgroup>
+          <optgroup label="HOK Studio">
+            <option value="hok_female_soft">Female Soft</option>
+            <option value="hok_male_news">Male News</option>
+          </optgroup>
+        </select>
+
+        <!-- UPLOAD -->
+        <h3 style="margin-top:14px;">Upload audio / video</h3>
+        <div class="upload-area">
+          <div class="upload-inner">
+            <div class="upload-icon">🎵</div>
+            <div class="upload-text">
+              <strong>Click or drop file</strong>
+              <span>MP3 / WAV / MP4</span>
+            </div>
+          </div>
+          <input type="file" class="upload-input" id="audFile" accept="audio/*,video/*" />
+        </div>
+
+        <!-- TRIM -->
+        <h3 style="margin-top:14px;">Trim duration</h3>
+        <input type="range" min="1" max="240" value="30" id="audTrim" />
+        <p class="modal-text">Duration: <strong><span id="audTrimValue">30</span>s</strong></p>
+         <!-- TRIM: START/END -->
+<div style="margin-top:10px;">
+  <div style="display:flex;gap:10px;">
+    <div style="flex:1;">
+      <label class="modal-text">Start (s)</label>
+      <input type="number" id="audStart" min="0" value="0" style="width:100%;" />
+    </div>
+    <div style="flex:1;">
+      <label class="modal-text">End (s)</label>
+      <input type="number" id="audEnd" min="1" value="30" style="width:100%;" />
+    </div>
+  </div>
+
+  <p class="hint" id="audFileInfo" style="margin-top:8px;">
+    Upload a file to enable accurate trimming.
+  </p>
+
+  <audio id="audFilePreview" controls style="width:100%;margin-top:8px;display:none;"></audio>
+  <video id="vidFilePreview" controls style="width:100%;margin-top:8px;display:none;border-radius:12px;"></video>
+</div>
+
+        <!-- CAMERA -->
+        <div style="margin-top:12px;">
+          <button class="btn-main full" id="btnAudOpenCamera"
+            style="background:linear-gradient(135deg,#22d3ee,#6366f1);">
+            📷 Use Camera (voice reference)
+          </button>
+        </div>
+
+        <!-- VOICE ENGINE -->
+        <h3 style="margin-top:14px;">Voice engine</h3>
+        <select class="select-small" id="audModel" style="width:100%;">
+          <option value="eleven-v2">ElevenLabs v2 · Multilingual</option>
+          <option value="eleven-v3">ElevenLabs v3 · Alpha</option>
+          <option value="minimax-turbo">Minimax Turbo · Fast</option>
+          <option value="minimax-hd">Minimax HD · Quality</option>
+          <option value="suno">Suno Voice</option>
+        </select>
+        <button class="btn-small" id="btnChooseVoice" style="margin-top:8px;width:100%;">
+          Choose voice…
+        </button>
+        <p class="hint">Selected: <strong id="audVoiceName">Rachel</strong></p>
+        
+        <!-- VOICE CONTROLS -->
+        <h3 style="margin-top:14px;">Voice control</h3>
+        <label>Speed</label>
+        <input type="range" min="0.5" max="1.5" step="0.1" value="1" />
+
+        <label>Stability</label>
+        <input type="range" min="0" max="1" step="0.05" value="0.5" />
+
+        <label>Similarity</label>
+        <input type="range" min="0" max="1" step="0.05" value="0.7" />
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+  
+ <!-- MODAL: VOICE SELECTION -->
+  <!-- VOICE SELECTOR MODAL -->
+<div id="voiceModal" class="voice-backdrop">
+  <div class="voice-modal">
+    <div class="voice-header">
+      <h3>Voice selection</h3>
+      <button id="closeVoiceModal">✕</button>
+    </div>
+    <button id="btnChooseVoice">Choose voice…</button>
+
+    <!-- FILTERS -->
+    <div class="voice-filters">
+      <select id="filterAccent">
+        <option value="">Accent</option>
+        <option value="American">American</option>
+        <option value="British">British</option>
+      </select>
+
+      <select id="filterGender">
+        <option value="">Gender</option>
+        <option value="Female">Female</option>
+        <option value="Male">Male</option>
+      </select>
+
+      <select id="filterAge">
+        <option value="">Age</option>
+        <option value="Young">Young</option>
+        <option value="Middle">Middle</option>
+      </select>
+
+      <select id="filterUse">
+        <option value="">Use case</option>
+        <option value="Narration">Narration</option>
+        <option value="News">News</option>
+        <option value="Conversational">Conversational</option>
+      </select>
+    </div>
+
+    <!-- VOICE LIST -->
+    <div id="voiceList" class="voice-list"></div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="modalSettings" class="modal-backdrop" style="display:none;">
+  <div class="modal-box" style="width:480px;max-width:calc(100% - 32px);padding:0;overflow:hidden;">
+
+    <!-- Header -->
+    <div style="padding:22px 24px 18px;border-bottom:1px solid #0f172a;display:flex;justify-content:space-between;align-items:center;">
+      <h2 style="font-size:1.15rem;font-weight:600;color:#f9fafb;margin:0;">Settings</h2>
+      <button data-close-settings style="background:none;border:none;color:#6b7280;font-size:1.2rem;cursor:pointer;">✕</button>
+    </div>
+
+    <div style="padding:20px 24px;display:flex;flex-direction:column;gap:14px;">
+
+      <!-- Account -->
+      <div style="background:#020617;border:1px solid #111827;border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div id="settingsAvatar" style="width:38px;height:38px;border-radius:999px;background:linear-gradient(135deg,#38bdf8,#6366f1);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:#fff;flex-shrink:0;">?</div>
+          <div>
+            <div id="settingsName" style="font-size:.88rem;font-weight:600;color:#e5e7eb;">Not signed in</div>
+            <div id="settingsEmail" style="font-size:.75rem;color:#6b7280;">Sign in to save your work</div>
+          </div>
+        </div>
+        <button id="settingsAuthBtn" style="padding:6px 14px;border-radius:999px;border:1px solid #1e293b;background:#0f172a;color:#e5e7eb;font-size:.78rem;cursor:pointer;white-space:nowrap;">Sign in</button>
+      </div>
+      </div>
+
+      <!-- Plan + Upgrade -->
+      <div style="background:#020617;border:1px solid #111827;border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:.88rem;font-weight:600;color:#f97316;">No Active Plan</div>
+          <div style="font-size:.75rem;color:#6b7280;margin-top:2px;">Buy credits to start generating</div>
+        </div>
+        <button onclick="closeAllModals();document.getElementById('modalUpgrade').style.display='flex';document.getElementById('modalUpgrade').style.pointerEvents='auto';" style="padding:7px 16px;border-radius:999px;border:none;background:linear-gradient(135deg,#38bdf8,#6366f1);color:#fff;font-size:.78rem;cursor:pointer;font-weight:600;">Upgrade</button>
+      </div>
+
+      <!-- Preferences -->
+      <div style="background:#020617;border:1px solid #111827;border-radius:12px;overflow:hidden;">
+        <div style="padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #0f172a;">
+          <span style="font-size:.85rem;color:#e5e7eb;">Theme</span>
+          <select class="select-small" style="background:#0f172a;border-color:#1e293b;">
+            <option>Dark</option>
+            <option>Light</option>
+          </select>
+        </div>
+        <div style="padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:.85rem;color:#e5e7eb;">Language</span>
+          <select class="select-small" style="background:#0f172a;border-color:#1e293b;">
+            <option>English</option>
+            <option>Albanian</option>
+            <option>Deutsch</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Sign out -->
+      <div id="settingsSignOutRow" style="display:none;">
+        <button id="settingsSignOut" style="width:100%;padding:10px;border-radius:10px;border:1px solid #1f2937;background:transparent;color:#f87171;font-size:.85rem;cursor:pointer;">Sign out</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- UPGRADE MODAL -->
+<div id="modalUpgrade" class="modal-upgrade-backdrop modal-backdrop" style="display:none;">
+
+  <div class="upgrade-panel">
+    <div class="upgrade-header">
+      <h2>Upgrade Your Plan</h2>
+      <button class="upgrade-close">✕</button>
+    </div>
+    
+    <div class="billing-switch">
+      <span class="switch-option active" id="optMonthly">Monthly</span>
+      <span class="switch-option" id="optAnnually">Annually</span>
+    </div>
+
+    <div id="upgradePlans" class="upgrade-grid"></div>
+  </div>
+</div>
+
+
+
+
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+// ============================================================
+// SUPABASE
+// ============================================================
+const SUPABASE_URL = "https://jsfsjuxzpwzgwdnbnqru.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpzZnNqdXh6cHd6Z3dkbmJucXJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0NDE0MjksImV4cCI6MjA4OTAxNzQyOX0.vNTRuKEJwZ1treZ3-Aw67N4GXM0WufHm6T1VsJge39A";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+
+// ============================================================
+// STATE
+// ============================================================
+let currentUser = null;
+let credits = 9999;
+const $ = id => document.getElementById(id);
+
+// ============================================================
+// HELPERS
+// ============================================================
+const closeAllModals = () => {
+  document.querySelectorAll(".modal-backdrop").forEach(m => m.style.display = "none");
+  document.body.style.overflow = "auto";
+};
+
+const openModal = modal => {
+  closeAllModals();
+  if (!modal) return;
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+};
+
+// ============================================================
+// AUTH UI
+// ============================================================
+const updateAuthUI = (user) => {
+  currentUser = user;
+  const btnIn  = $("btnSignIn");
+  const btnUp  = $("btnSignUp");
+  const avatar = $("userAvatar");
+
+  if (user) {
+    if (btnIn)  btnIn.style.display  = "none";
+    if (btnUp)  btnUp.style.display  = "none";
+    if (avatar) {
+      avatar.style.display = "flex";
+      const name = user.user_metadata?.name || user.email?.split("@")[0] || "U";
+      avatar.textContent = name[0].toUpperCase();
+      avatar.title = name + " — click to sign out";
+    }
+  } else {
+    if (btnIn)  btnIn.style.display  = "";
+    if (btnUp)  btnUp.style.display  = "";
+    if (avatar) avatar.style.display = "none";
+  }
+
+  const usageCount = document.querySelector("#btnUsage .count");
+  if (usageCount) usageCount.textContent = credits + "/9999";
+};
+
+// ============================================================
+// GALLERY
+// ============================================================
+const renderGallery = (items) => {
+  const list = $("galleryList"); if (!list) return;
+  if (!items || items.length === 0) {
+    list.innerHTML = `<p style="color:#6b7280;font-size:.82rem;text-align:center;padding:40px 0;">No generations yet.</p>`;
+    return;
+  }
+  const icons = { image:"🖼️", video:"🎬", audio:"🎧", character:"🎭" };
+  list.innerHTML = items.map(item => `
+    <div style="padding:12px;border:1px solid #1f2937;border-radius:12px;background:#020617;margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <span>${icons[item.type]||"📁"}</span>
+        <span style="font-size:.82rem;font-weight:600;color:#e5e7eb;text-transform:capitalize;">${item.type}</span>
+        <span style="margin-left:auto;font-size:.7rem;color:#4b5563;">${new Date(item.created_at||Date.now()).toLocaleDateString()}</span>
+      </div>
+      <div style="font-size:.77rem;color:#9ca3af;line-height:1.6;">
+        <div style="color:#d1d5db;margin-bottom:2px;">${(item.prompt||"").slice(0,70)}${(item.prompt||"").length>70?"…":""}</div>
+        <div>Model: <strong style="color:#e5e7eb;">${item.model||"-"}</strong>
+          ${item.aspect?` · <strong style="color:#e5e7eb;">${item.aspect}</strong>`:""}
+          ${item.duration?` · <strong style="color:#e5e7eb;">${item.duration}</strong>`:""}
+        </div>
+        <div style="margin-top:3px;">
+          Cost: <strong style="color:#38bdf8;">${item.credits_used||0} credits</strong>
+          <span style="margin-left:8px;padding:1px 6px;border-radius:4px;font-size:.68rem;background:#0f172a;border:1px solid #1e293b;color:#94a3b8;">${item.status||"completed"}</span>
+        </div>
+      </div>
+    </div>`).join("");
+};
+
+const loadUserGallery = async () => {
+  if (!currentUser) { renderGallery([]); return; }
+  const { data } = await sb.from("generations").select("*")
+    .eq("user_id", currentUser.id)
+    .order("created_at", { ascending: false })
+    .limit(50);
+  if (data) renderGallery(data);
+};
+
+const saveGeneration = async (gen) => {
+  if (!currentUser) return;
+  await sb.from("generations").insert({
+    user_id:      currentUser.id,
+    type:         gen.type,
+    prompt:       gen.prompt,
+    model:        gen.model,
+    aspect:       gen.aspect || null,
+    duration:     gen.duration || null,
+    credits_used: gen.cost,
+    status:       "completed",
+    result_url:   gen.result_url || null,
+  });
+  // Refresh gallery if panel is open
+  if ($("galleryPanel")?.style.display !== "none") loadUserGallery();
+};
+
+const deductCredits = async (cost) => {
+  credits = Math.max(0, credits - cost);
+  if (currentUser) {
+    await sb.from("profiles").upsert({ id: currentUser.id, credits });
+  }
+  const usageCount = document.querySelector("#btnUsage .count");
+  if (usageCount) usageCount.textContent = credits + "/9999";
+};
+
+const loadUserCredits = async () => {
+  if (!currentUser) return;
+  const { data } = await sb.from("profiles").select("credits").eq("id", currentUser.id).single();
+  if (data) { credits = data.credits || 9999; updateAuthUI(currentUser); }
+};
+
+// ============================================================
+// API CALLER
+// ============================================================
+const API_BASE = "http://localhost:4000";
+
+const callGenerationAPI = async ({ type, model, prompt, aspect, duration }) => {
+  try {
+    let endpoint = `${API_BASE}/api/generate/image`;
+    if (model === "runway-gen3") endpoint = `${API_BASE}/api/runway/video`;
+    else if (model === "kling")  endpoint = `${API_BASE}/api/kling/video`;
+    else if (["eleven-v2","eleven-v3","minimax-turbo","minimax-hd","suno"].includes(model)) endpoint = `${API_BASE}/api/generate/audio`;
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt, model, aspect, duration, type })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      return { demo: false, error: err.error || "Server error", result_url: null };
+    }
+
+    const data = await res.json();
+    return { demo: false, result_url: data.path || data.url || null, error: null };
+
+  } catch (err) {
+    return { demo: true, result_url: null, error: "Backend not running — start: node server.js" };
+  }
+};
+
+// ============================================================
+// DOM READY
+// ============================================================
+document.addEventListener("DOMContentLoaded", async () => {
+
+  if (window.lucide) lucide.createIcons();
+
+  // ---- Inject Avatar ----
+  const tbActions = document.querySelector(".tb-actions");
+  if (tbActions && !$("userAvatar")) {
+    const av = document.createElement("div");
+    av.id = "userAvatar";
+    av.style.cssText = "display:none;width:32px;height:32px;border-radius:999px;background:linear-gradient(135deg,#38bdf8,#6366f1);color:#fff;font-size:.85rem;font-weight:700;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;";
+    av.addEventListener("click", async () => {
+      if (confirm("Sign out?")) {
+        await sb.auth.signOut();
+        credits = 9999;
+        updateAuthUI(null);
+        renderGallery([]);
+      }
+    });
+    tbActions.insertBefore(av, $("btnSignIn"));
+  }
+
+  // ---- Inject Gallery Panel ----
+  if (!$("galleryPanel")) {
+    const panel = document.createElement("div");
+    panel.id = "galleryPanel";
+    panel.style.cssText = "display:none;position:fixed;top:0;right:0;width:380px;height:100vh;background:#05060a;border-left:1px solid #0f172a;z-index:4000;overflow-y:auto;padding:20px 16px;box-shadow:-20px 0 60px rgba(0,0,0,.8);";
+    panel.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <h3 style="font-size:1rem;font-weight:600;color:#f9fafb;">My Generations</h3>
+        <button id="closeGallery" style="background:none;border:none;color:#9ca3af;font-size:1.1rem;cursor:pointer;">✕</button>
+      </div>
+      <div id="galleryList"></div>`;
+    document.body.appendChild(panel);
+    $("closeGallery")?.addEventListener("click", () => panel.style.display = "none");
+  }
+
+  // ---- Inject My Files in sidebar ----
+  const sbNav = document.querySelector(".sb-nav");
+  if (sbNav && !$("sbMyFiles")) {
+    const filesItem = document.createElement("a");
+    filesItem.id        = "sbMyFiles";
+    filesItem.className = "sb-item";
+    filesItem.href      = "#";
+    filesItem.innerHTML = `<i data-lucide="folder-open" class="sb-icon"></i><span>My Files</span>`;
+    // Insert after Audio
+    const items = [...sbNav.querySelectorAll(".sb-item")];
+    const audioItem = items.find(i => i.textContent.trim().toLowerCase() === "audio");
+    if (audioItem?.nextSibling) sbNav.insertBefore(filesItem, audioItem.nextSibling);
+    else sbNav.appendChild(filesItem);
+    if (window.lucide) lucide.createIcons();
+
+    filesItem.addEventListener("click", e => {
+      e.preventDefault();
+      document.querySelectorAll(".sb-item").forEach(i => i.classList.remove("active"));
+      filesItem.classList.add("active");
+      const panel = $("galleryPanel");
+      if (panel) {
+        panel.style.display = panel.style.display === "none" ? "block" : "none";
+        loadUserGallery();
+      }
+    });
+  }
+
+  // ---- Inject Auth Modal ----
+  if (!$("modalAuth")) {
+    const authModal = document.createElement("div");
+    authModal.id        = "modalAuth";
+    authModal.className = "modal-backdrop";
+    authModal.style.display = "none";
+    authModal.innerHTML = `
+      <div class="modal-box" style="width:420px;max-width:calc(100% - 32px);">
+        <div class="modal-header">
+          <div>
+            <h2 id="authTitle">Sign in</h2>
+            <p id="authSubtitle">Welcome back to HOK Studio.</p>
+          </div>
+          <button id="closeAuth" style="background:none;border:none;color:#9ca3af;font-size:1.1rem;cursor:pointer;">✕</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px;">
+          <input id="authEmail" type="email" placeholder="Email address"
+            style="background:#020617;border:1px solid #1f2937;color:#e5e7eb;border-radius:10px;padding:10px 12px;font-size:.88rem;outline:none;width:100%;box-sizing:border-box;" />
+          <input id="authPassword" type="password" placeholder="Password"
+            style="background:#020617;border:1px solid #1f2937;color:#e5e7eb;border-radius:10px;padding:10px 12px;font-size:.88rem;outline:none;width:100%;box-sizing:border-box;" />
+          <input id="authName" type="text" placeholder="Display name (sign up only)"
+            style="background:#020617;border:1px solid #1f2937;color:#e5e7eb;border-radius:10px;padding:10px 12px;font-size:.88rem;outline:none;width:100%;box-sizing:border-box;display:none;" />
+          <div id="authError" style="color:#f87171;font-size:.78rem;display:none;"></div>
+          <button id="authSubmit" class="btn-main full">Sign in</button>
+          <p style="text-align:center;font-size:.8rem;color:#9ca3af;">
+            <span id="authToggleText">Don't have an account?</span>
+            <span id="authToggleBtn" style="color:#38bdf8;cursor:pointer;margin-left:4px;">Sign up</span>
+          </p>
+        </div>
+      </div>`;
+    document.body.appendChild(authModal);
+    authModal.addEventListener("click", e => { if (e.target === authModal) closeAllModals(); });
+    $("closeAuth")?.addEventListener("click", closeAllModals);
+  }
+
+  // ---- Auth logic ----
+  let authMode = "signin";
+
+  const openAuth = (mode = "signin") => {
+    authMode = mode;
+    $("authTitle").textContent      = mode === "signin" ? "Sign in" : "Create account";
+    $("authSubtitle").textContent   = mode === "signin" ? "Welcome back to HOK Studio." : "Start creating with AI.";
+    $("authSubmit").textContent     = mode === "signin" ? "Sign in" : "Sign up";
+    $("authName").style.display     = mode === "signup" ? "block" : "none";
+    $("authToggleText").textContent = mode === "signin" ? "Don't have an account?" : "Already have an account?";
+    $("authToggleBtn").textContent  = mode === "signin" ? "Sign up" : "Sign in";
+    const err = $("authError"); if(err) err.style.display = "none";
+    openModal($("modalAuth"));
+  };
+
+  $("btnSignIn")?.addEventListener("click", () => openAuth("signin"));
+  $("btnSignUp")?.addEventListener("click", () => openAuth("signup"));
+  $("authToggleBtn")?.addEventListener("click", () => openAuth(authMode === "signin" ? "signup" : "signin"));
+
+  $("authSubmit")?.addEventListener("click", async () => {
+    const email    = $("authEmail")?.value?.trim();
+    const password = $("authPassword")?.value;
+    const name     = $("authName")?.value?.trim();
+    const errEl    = $("authError");
+
+    if (errEl) errEl.style.display = "none";
+    if (!email || !password) {
+      if (errEl) { errEl.textContent = "Please fill in email and password."; errEl.style.display = "block"; }
+      return;
+    }
+
+    const submitBtn = $("authSubmit");
+    submitBtn.textContent = "Loading…";
+    submitBtn.disabled = true;
+
+    if (authMode === "signin") {
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) {
+        if (errEl) { errEl.textContent = error.message; errEl.style.display = "block"; }
+      } else {
+        closeAllModals();
+      }
+    } else {
+      const { error } = await sb.auth.signUp({
+        email, password,
+        options: { data: { name: name || email.split("@")[0] } }
+      });
+      if (error) {
+        if (errEl) { errEl.textContent = error.message; errEl.style.display = "block"; }
+      } else {
+        closeAllModals();
+        alert("✅ Account created! Check your email to confirm.");
+      }
+    }
+
+    submitBtn.textContent = authMode === "signin" ? "Sign in" : "Sign up";
+    submitBtn.disabled = false;
+  });
+
+  [$("authEmail"), $("authPassword"), $("authName")].forEach(el =>
+    el?.addEventListener("keydown", e => { if (e.key === "Enter") $("authSubmit")?.click(); })
+  );
+
+  // ---- Check session ----
+  const { data: { session } } = await sb.auth.getSession();
+  if (session?.user) {
+    updateAuthUI(session.user);
+    await loadUserCredits();
+  } else {
+    updateAuthUI(null);
+  }
+
+  sb.auth.onAuthStateChange(async (_event, session) => {
+    if (session?.user) {
+      updateAuthUI(session.user);
+      await loadUserCredits();
+      await loadUserGallery();
+    } else {
+      updateAuthUI(null);
+      renderGallery([]);
+    }
+  });
+
+  // ============================================================
+  // MODALS
+  // ============================================================
+  const baseModal = $("createModal");
+  const modalChar = $("modalCharacter");
+  const modalImg  = $("modalImage");
+  const modalVid  = $("modalVideo");
+  const modalAud  = $("modalAudio");
+
+  document.querySelectorAll(".modal-backdrop").forEach(b =>
+    b.addEventListener("click", e => { if (e.target === b) closeAllModals(); })
+  );
+  document.querySelector(".modal-close")         ?.addEventListener("click", closeAllModals);
+  document.querySelector(".modal-close-char")    ?.addEventListener("click", closeAllModals);
+  document.querySelector(".modal-close-img")     ?.addEventListener("click", closeAllModals);
+  document.querySelector(".modal-close-vid")     ?.addEventListener("click", closeAllModals);
+  document.querySelector(".modal-close-aud")     ?.addEventListener("click", closeAllModals);
+  document.querySelector(".upgrade-close")       ?.addEventListener("click", closeAllModals);
+  document.querySelector("[data-close-settings]")?.addEventListener("click", closeAllModals);
+
+  $("btnOpenCreate")?.addEventListener("click", () => openModal(baseModal));
+  document.querySelector(".modal-btn-char")?.addEventListener("click", () => openModal(modalChar));
+  document.querySelector(".modal-btn-img") ?.addEventListener("click", () => openModal(modalImg));
+  document.querySelector(".modal-btn-vid") ?.addEventListener("click", () => openModal(modalVid));
+  document.querySelector(".modal-btn-aud") ?.addEventListener("click", () => openModal(modalAud));
+
+  document.querySelectorAll(".home-card").forEach(card => {
+    card.addEventListener("click", () => {
+      const t = card.dataset.open;
+      if      (t === "character") openModal(modalChar);
+      else if (t === "image")     openModal(modalImg);
+      else if (t === "video")     openModal(modalVid);
+      else if (t === "audio")     openModal(modalAud);
+    });
+  });
+
+  document.querySelectorAll(".sb-item").forEach(item => {
+    item.addEventListener("click", e => {
+      e.preventDefault();
+      document.querySelectorAll(".sb-item").forEach(i => i.classList.remove("active"));
+      item.classList.add("active");
+      const txt = item.textContent.trim().toLowerCase();
+      if      (txt === "characters") openModal(modalChar);
+      else if (txt === "images")     openModal(modalImg);
+      else if (txt === "videos")     openModal(modalVid);
+      else if (txt === "audio")      openModal(modalAud);
+      else if (txt === "settings")   openModal($("modalSettings"));
+      else if (txt === "my files")   { /* handled above */ }
+      else closeAllModals();
+    });
+  });
+
+  document.querySelectorAll(".btn-create-mini").forEach(btn =>
+    btn.addEventListener("click", () => openModal(modalChar))
+  );
+
+  // ---- Upgrade modal ----
+  const plans = {
+    monthly:  [{name:"Essential",price:14,credits:4000,videos:50},{name:"Advanced",price:29,credits:12000,videos:150},{name:"Infinite",price:56,credits:24000,videos:300},{name:"Wonder",price:240,credits:106000,videos:1300}],
+    annually: [{name:"Essential",price:7,credits:4000,videos:50},{name:"Advanced",price:14.5,credits:12000,videos:150},{name:"Infinite",price:28,credits:24000,videos:300},{name:"Wonder",price:120,credits:106000,videos:1300}]
+  };
+  const planColors = ['#94a3b8','#60a5fa','#a78bfa','#f87171'];
+  const renderPlans = cycle => {
+    const c = $("upgradePlans"); if (!c) return;
+    c.innerHTML = plans[cycle].map((p,i) => `
+      <div class="plan-box">
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:${planColors[i]};margin-bottom:12px;">${p.name}</div>
+        <div class="plan-price">$${p.price}<span style="font-size:14px;font-weight:400;color:#6b7280;">/mo</span></div>
+        <div class="plan-list">
+          <div style="color:#9ca3af;">✓ ${p.credits.toLocaleString()} credits/mo</div>
+          <div style="color:#9ca3af;">✓ Up to ${p.videos} videos/mo</div>
+          <div style="color:#9ca3af;">✓ All AI models</div>
+          <div style="color:#9ca3af;">✓ Priority support</div>
+        </div>
+        <button class="plan-btn">Get ${p.name}</button>
+      </div>`).join("");
+  };
+  $("btnUpgrade")   ?.addEventListener("click", () => { openModal($("modalUpgrade")); renderPlans("monthly"); });
+  $("optMonthly")   ?.addEventListener("click", function(){ this.classList.add("active"); $("optAnnually")?.classList.remove("active"); renderPlans("monthly"); });
+  $("optAnnually")  ?.addEventListener("click", function(){ this.classList.add("active"); $("optMonthly")?.classList.remove("active"); renderPlans("annually"); });
+
+  // ============================================================
+  // IMAGE CREATOR
+  // ============================================================
+  (() => {
+    const creditsEl=  $("imgCreditsAvailable"), costEl=$("imgCreditsCost");
+    const modeEl=     $("imgMode"), fileEl=$("imgFile");
+    const uploadTitle=$("imgUploadTitle"), uploadTypes=$("imgUploadTypes"), uploadHint=$("imgUploadHint");
+    const modelEl=    $("imgModel"), aspectEl=$("imgAspect"), charEl=$("imgCharacter");
+    const btn=        $("btnCreateImage"), loading=$("imgLoading"), preview=$("previewBoxImage");
+    const camBtn=     $("btnImgOpenCamera"), camBox=$("imgCameraBox");
+    const camVideo=   $("imgCameraVideo"), camCanvas=$("imgCameraCanvas"), camSnap=$("btnImgTakePhoto");
+    if (!btn) return;
+
+    const BASE={runway:45,"n-banana":25,sdxl:30,flux:28};
+    const MF={"text2image":1.0,"image2image":1.2};
+    const AF={"9:16":1.1,"4:5":1.05,"1:1":1.0,"16:9":1.1};
+    const calcCost=()=>Math.round((BASE[modelEl?.value]??30)*4*(MF[modeEl?.value]??1)*(AF[aspectEl?.value]??1));
+    const render=()=>{ if(creditsEl) creditsEl.textContent=credits; if(costEl) costEl.textContent=calcCost(); };
+    const applyMode=()=>{
+      const t2i=modeEl?.value==="text2image";
+      if(uploadTitle) uploadTitle.textContent=t2i?"Click or drop an image (optional)":"Upload an image (required)";
+      if(uploadTypes) uploadTypes.textContent=t2i?"PNG / JPG · Optional":"PNG / JPG";
+      if(uploadHint)  uploadHint.textContent =t2i?"Optional reference for style.":"Required for Image → Image mode.";
+      render();
+    };
+    modeEl?.addEventListener("change",applyMode);
+    modelEl?.addEventListener("change",render);
+    aspectEl?.addEventListener("change",render);
+    applyMode();
+
+    let s=null;
+    camBtn?.addEventListener("click",async()=>{
+      try{ s=await navigator.mediaDevices.getUserMedia({video:true}); camVideo.srcObject=s; camBox.style.display="block"; if(modeEl) modeEl.value="image2image"; applyMode(); }
+      catch{ alert("Camera not available."); }
+    });
+    camSnap?.addEventListener("click",()=>{
+      camCanvas.width=camVideo.videoWidth; camCanvas.height=camVideo.videoHeight;
+      camCanvas.getContext("2d").drawImage(camVideo,0,0,camCanvas.width,camCanvas.height);
+      camCanvas.toBlob(b=>{ const f=new File([b],"cam.jpg",{type:"image/jpeg"}); const dt=new DataTransfer(); dt.items.add(f); if(fileEl) fileEl.files=dt.files; if(s) s.getTracks().forEach(t=>t.stop()); camBox.style.display="none"; alert("Photo captured ✍️"); },"image/jpeg",0.95);
+    });
+
+    btn.addEventListener("click", async () => {
+      if (!currentUser) { openAuth("signin"); return; }
+      const cost=calcCost();
+      if (credits<cost) { alert("Not enough credits."); return; }
+      if (modeEl?.value==="image2image"&&!fileEl?.files?.length) { alert("Please upload an image first."); return; }
+      btn.disabled=true; if(loading) loading.style.display="flex";
+      const prompt=$("imgPrompt")?.value||"", model=modelEl?.value||"sdxl", aspect=aspectEl?.value||"1:1";
+      const result=await callGenerationAPI({type:"image",model,prompt,aspect});
+      await deductCredits(cost);
+      await saveGeneration({type:"image",prompt,model,aspect,cost,result_url:result.result_url});
+      btn.disabled=false; if(loading) loading.style.display="none";
+      if(preview) preview.innerHTML=`<div style="padding:12px;border:1px solid #1f2937;border-radius:12px;background:#020617;">
+        <div style="font-size:.85rem;color:#e5e7eb;font-weight:600;margin-bottom:6px;">${result.error?"❌ "+result.error:result.result_url?"✅ Done!":"✅ Processing..."}</div>
+        <div style="font-size:.78rem;color:#9ca3af;">Model: <strong>${model}</strong> · Aspect: <strong>${aspect}</strong><br>Charged: <strong style="color:#38bdf8;">${cost} credits</strong>${result.message?`<br><span style="color:#f97316;">${result.message}</span>`:""}</div></div>`;
+    });
+  })();
+
+  // ============================================================
+  // VIDEO CREATOR
+  // ============================================================
+  (() => {
+    const creditsEl=$("vidCreditsAvailable"),costEl=$("vidCreditsCost");
+    const modelEl=$("vidModel"),modeEl=$("vidMode"),durationEl=$("vidDuration");
+    const btn=$("btnCreateVideo"),loading=$("vidLoading"),preview=$("previewBoxVideo");
+    const btnCam=$("btnOpenCamera"),camBox=$("cameraBox"),vidEl=$("cameraVideo"),canvas=$("cameraCanvas"),btnSnap=$("btnTakePhoto"),fileIn=$("vidFile");
+    if(!btn) return;
+    const BASE={"runway-gen3":80,"luma-ray":70,"kling":60,"n-banana":40};
+    const calcCost=()=>Math.round((BASE[modelEl?.value]??60)*(parseInt(durationEl?.value||"10")/10));
+    const render=()=>{ if(creditsEl) creditsEl.textContent=credits; if(costEl) costEl.textContent=calcCost(); };
+    modelEl?.addEventListener("change",render); durationEl?.addEventListener("change",render); modeEl?.addEventListener("change",render);
+    render();
+    let s=null;
+    btnCam?.addEventListener("click",async()=>{ try{ s=await navigator.mediaDevices.getUserMedia({video:true}); vidEl.srcObject=s; camBox.style.display="block"; if(modeEl) modeEl.value="image2video"; }catch{ alert("Camera not available."); } });
+    btnSnap?.addEventListener("click",()=>{ canvas.width=vidEl.videoWidth; canvas.height=vidEl.videoHeight; canvas.getContext("2d").drawImage(vidEl,0,0,canvas.width,canvas.height); canvas.toBlob(b=>{ const f=new File([b],"cam.jpg",{type:"image/jpeg"}); const dt=new DataTransfer(); dt.items.add(f); if(fileIn) fileIn.files=dt.files; if(s) s.getTracks().forEach(t=>t.stop()); camBox.style.display="none"; alert("Photo captured ✍️"); },"image/jpeg",0.92); });
+    btn.addEventListener("click",async()=>{
+      if(!currentUser){ openAuth("signin"); return; }
+      const cost=calcCost(); if(credits<cost){ alert("Not enough credits."); return; }
+      btn.disabled=true; if(loading) loading.style.display="flex";
+      const prompt=$("vidPrompt")?.value||"",model=modelEl?.value||"runway-gen3",duration=(durationEl?.value||"10")+"s",aspect=$("vidAspect")?.value||"16:9";
+      const result=await callGenerationAPI({type:"video",model,prompt,duration});
+      await deductCredits(cost); await saveGeneration({type:"video",prompt,model,duration,aspect,cost,result_url:result.result_url});
+      btn.disabled=false; if(loading) loading.style.display="none";
+      if(preview) preview.innerHTML=`<div style="padding:12px;border:1px solid #1f2937;border-radius:12px;background:#020617;"><div style="font-size:.85rem;color:#e5e7eb;font-weight:600;margin-bottom:6px;">${result.error?"❌ "+result.error:result.result_url?"✅ Done!":"✅ Processing..."}</div><div style="font-size:.78rem;color:#9ca3af;">Model: <strong>${model}</strong> · Duration: <strong>${duration}</strong><br>Charged: <strong style="color:#38bdf8;">${cost} credits</strong>${result.message?`<br><span style="color:#f97316;">${result.message}</span>`:""}</div></div>`;
+    });
+  })();
+
+  // ============================================================
+  // AUDIO CREATOR
+  // ============================================================
+  (() => {
+    const creditsEl=$("audCreditsAvailable"),costEl=$("audCreditsCost");
+    const modelEl=$("audModel"),modeEl=$("audMode"),trimEl=$("audTrim"),trimVal=$("audTrimValue");
+    const btn=$("btnCreateAudio"),loading=$("audLoading"),preview=$("previewBoxAudio");
+    const fileEl=$("audFile"),startEl=$("audStart"),endEl=$("audEnd"),infoEl=$("audFileInfo");
+    const audPrev=$("audFilePreview"),vidPrev=$("vidFilePreview");
+    if(!btn||!trimEl) return;
+    const BASE={"eleven-v2":5,"eleven-v3":6,"minimax-turbo":4,"minimax-hd":5,"suno":3};
+    const calcCost=()=>{ const base=BASE[modelEl?.value]||4,s=parseInt(startEl?.value||"0",10),e=parseInt(endEl?.value||trimEl.value||"30",10); return Math.round(base*4*(Math.max(1,e-s)/10)); };
+    const render=()=>{ if(creditsEl) creditsEl.textContent=credits; if(costEl) costEl.textContent=calcCost(); if(trimVal) trimVal.textContent=trimEl.value; };
+    fileEl?.addEventListener("change",()=>{
+      const f=fileEl.files?.[0]; if(!f) return;
+      const url=URL.createObjectURL(f);
+      if(audPrev) audPrev.style.display="none"; if(vidPrev) vidPrev.style.display="none";
+      if(f.type.startsWith("video/")&&vidPrev){ vidPrev.src=url; vidPrev.style.display="block"; vidPrev.onloadedmetadata=()=>{ if(infoEl) infoEl.textContent=`Video: ${Math.round(vidPrev.duration)}s`; render(); }; }
+      else if(audPrev){ audPrev.src=url; audPrev.style.display="block"; audPrev.onloadedmetadata=()=>{ if(infoEl) infoEl.textContent=`Audio: ${Math.round(audPrev.duration)}s`; render(); }; }
+    });
+    trimEl.addEventListener("input",render); modelEl?.addEventListener("change",render); modeEl?.addEventListener("change",render);
+    [startEl,endEl].forEach(el=>el?.addEventListener("input",()=>{ const s=parseInt(startEl?.value||"0",10),e=parseInt(endEl?.value||"1",10); if(e<=s&&endEl) endEl.value=String(s+1); render(); }));
+    render();
+    btn.addEventListener("click",async()=>{
+      if(!currentUser){ openAuth("signin"); return; }
+      const cost=calcCost(); if(credits<cost){ alert("Not enough credits."); return; }
+      btn.disabled=true; if(loading) loading.style.display="flex";
+      const prompt=$("audPrompt")?.value||"",model=modelEl?.value||"eleven-v2",duration=trimEl.value+"s";
+      const result=await callGenerationAPI({type:"audio",model,prompt});
+      await deductCredits(cost); await saveGeneration({type:"audio",prompt,model,duration,cost,result_url:result.result_url});
+      btn.disabled=false; if(loading) loading.style.display="none";
+      if(preview) preview.innerHTML=`<div style="padding:12px;border:1px solid #1f2937;border-radius:12px;background:#020617;"><div style="font-size:.85rem;color:#e5e7eb;font-weight:600;margin-bottom:6px;">${result.error?"❌ "+result.error:result.result_url?"✅ Done!":"✅ Processing..."}</div><div style="font-size:.78rem;color:#9ca3af;">Model: <strong>${model}</strong> · Duration: <strong>${duration}</strong><br>Charged: <strong style="color:#38bdf8;">${cost} credits</strong>${result.message?`<br><span style="color:#f97316;">${result.message}</span>`:""}</div></div>`;
+    });
+  })();
+
+  // ============================================================
+  // CHARACTER CREATOR
+  // ============================================================
+  (() => {
+    const creditsEl=$("charCreditsAvailable"),costEl=$("charCreditsCost"),modelEl=$("charModel");
+    const btn=$("btnCreateCharacter"),loading=$("charLoading"),preview=$("previewBoxCharacter");
+    const camBtn=$("btnCharOpenCamera"),camBox=$("charCameraBox"),camVideo=$("charCameraVideo"),camCanvas=$("charCameraCanvas"),camSnap=$("btnCharTakePhoto"),fileInput=$("charFile");
+    if(!btn) return;
+    const BASE={veo:120,"n-banana":60,sora:100,kling:80,sdxl:50};
+    const calcCost=()=>Math.round((BASE[modelEl?.value]??80)*4);
+    const render=()=>{ if(creditsEl) creditsEl.textContent=credits; if(costEl) costEl.textContent=calcCost(); };
+    modelEl?.addEventListener("change",render); render();
+    let s=null;
+    camBtn?.addEventListener("click",async()=>{ try{ s=await navigator.mediaDevices.getUserMedia({video:true}); camVideo.srcObject=s; camBox.style.display="block"; }catch{ alert("Camera not available."); } });
+    camSnap?.addEventListener("click",()=>{ camCanvas.width=camVideo.videoWidth; camCanvas.height=camVideo.videoHeight; camCanvas.getContext("2d").drawImage(camVideo,0,0,camCanvas.width,camCanvas.height); camCanvas.toBlob(b=>{ const f=new File([b],"char.jpg",{type:"image/jpeg"}); const dt=new DataTransfer(); dt.items.add(f); if(fileInput) fileInput.files=dt.files; if(s) s.getTracks().forEach(t=>t.stop()); camBox.style.display="none"; alert("Photo captured ✍️"); },"image/jpeg",0.95); });
+    btn.addEventListener("click",async()=>{
+      if(!currentUser){ openAuth("signin"); return; }
+      const cost=calcCost(); if(credits<cost){ alert("Not enough credits."); return; }
+      btn.disabled=true; if(loading) loading.style.display="flex";
+      const prompt=$("charPrompt")?.value||"",model=modelEl?.value||"sdxl";
+      const result=await callGenerationAPI({type:"character",model,prompt});
+      await deductCredits(cost); await saveGeneration({type:"character",prompt,model,cost,result_url:result.result_url});
+      btn.disabled=false; if(loading) loading.style.display="none";
+      if(preview) preview.innerHTML=`<div style="padding:12px;border:1px solid #1f2937;border-radius:12px;background:#020617;"><div style="font-size:.85rem;color:#e5e7eb;font-weight:600;margin-bottom:6px;">${result.demo?"⏳ Queued — add API key":"✅ Character created"}</div><div style="font-size:.78rem;color:#9ca3af;">Model: <strong>${model}</strong><br>Charged: <strong style="color:#38bdf8;">${cost} credits</strong>${result.message?`<br><span style="color:#f97316;">${result.message}</span>`:""}</div></div>`;
+    });
+  })();
+
+  // ============================================================
+  // VOICE SELECTOR
+  // ============================================================
+  (() => {
+    const modal=$("voiceModal"),openBtn=$("btnChooseVoice"),closeBtn=$("closeVoiceModal"),list=$("voiceList"),label=$("audVoiceName");
+    const fA=$("filterAccent"),fG=$("filterGender"),fAg=$("filterAge"),fU=$("filterUse");
+    if(!modal||!openBtn||!list) return;
+    const voices=[{name:"Rachel",accent:"American",gender:"Female",age:"Young",use:"Conversational"},{name:"Drew",accent:"American",gender:"Male",age:"Middle",use:"News"},{name:"Clyde",accent:"American",gender:"Male",age:"Middle",use:"Characters"},{name:"Aria",accent:"American",gender:"Female",age:"Middle",use:"Narration"},{name:"Domi",accent:"American",gender:"Female",age:"Young",use:"Narration"}];
+    const rv=()=>{ list.innerHTML=""; const a=fA?.value||"",g=fG?.value||"",ag=fAg?.value||"",u=fU?.value||""; voices.filter(v=>(!a||v.accent===a)&&(!g||v.gender===g)&&(!ag||v.age===ag)&&(!u||v.use===u)).forEach(v=>{ const d=document.createElement("div"); d.className="voice-item"; d.innerHTML=`<strong>${v.name}</strong><br><small>${v.accent}·${v.gender}·${v.age}·${v.use}</small>`; d.onclick=()=>{ if(label) label.textContent=v.name; modal.style.display="none"; }; list.appendChild(d); }); };
+    openBtn.onclick=()=>{ modal.style.display="flex"; rv(); };
+    closeBtn.onclick=()=>{ modal.style.display="none"; };
+    [fA,fG,fAg,fU].forEach(s=>s?.addEventListener("change",rv));
+  })();
+
+  // ============================================================
+  // SETTINGS MODAL LOGIC
+  // ============================================================
+  const updateSettingsUI = () => {
+    const nameEl    = $("settingsName");
+    const emailEl   = $("settingsEmail");
+    const avatarEl  = $("settingsAvatar");
+    const authBtn   = $("settingsAuthBtn");
+    const signOutRow= $("settingsSignOutRow");
+
+    if (currentUser) {
+      const name = currentUser.user_metadata?.name || currentUser.email?.split("@")[0] || "User";
+      if (nameEl)    nameEl.textContent    = name;
+      if (emailEl)   emailEl.textContent   = currentUser.email;
+      if (avatarEl)  avatarEl.textContent  = name[0].toUpperCase();
+      if (authBtn)   { authBtn.textContent = "Profile"; authBtn.style.display = "none"; }
+      if (signOutRow) signOutRow.style.display = "block";
+    } else {
+      if (nameEl)    nameEl.textContent    = "Not signed in";
+      if (emailEl)   emailEl.textContent   = "Sign in to save your work";
+      if (avatarEl)  avatarEl.textContent  = "?";
+      if (authBtn)   { authBtn.textContent = "Sign in"; authBtn.style.display = "block"; }
+      if (signOutRow) signOutRow.style.display = "none";
+    }
+
+  };
+
+  $("settingsAuthBtn")?.addEventListener("click", () => {
+    closeAllModals();
+    openAuth("signin");
+  });
+
+  $("settingsSignOut")?.addEventListener("click", async () => {
+    await sb.auth.signOut();
+    credits = 9999;
+    updateAuthUI(null);
+    updateSettingsUI();
+    renderGallery([]);
+    closeAllModals();
+  });
+
+  // Update settings when opened
+  const origSettingsOpen = document.querySelectorAll(".sb-item");
+  $("modalSettings")?.addEventListener("click", e => {
+    if (e.target === $("modalSettings")) closeAllModals();
+  });
+
+  // Override settings open to also update UI
+  const openSettings = () => {
+    updateSettingsUI();
+    openModal($("modalSettings"));
+  };
+
+  // Re-bind settings open from sidebar
+  document.querySelectorAll(".sb-item").forEach(item => {
+    if (item.textContent.trim().toLowerCase() === "settings") {
+      item.onclick = e => {
+        e.preventDefault();
+        document.querySelectorAll(".sb-item").forEach(i => i.classList.remove("active"));
+        item.classList.add("active");
+        openSettings();
+      };
+    }
+  });
+
+  // Update on auth change
+  const origOnAuthStateChange = sb.auth.onAuthStateChange;
+
+  closeAllModals();
+  updateSettingsUI();
+});
+</script>
+</body>
+</html>
