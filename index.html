@@ -2437,7 +2437,7 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 // STATE
 // ============================================================
 let currentUser = null;
-let credits = 9999;
+let credits = 0;
 const $ = id => document.getElementById(id);
 
 // ============================================================
@@ -2558,9 +2558,9 @@ const loadUserCredits = async () => {
 // ============================================================
 // API CALLER
 // ============================================================
-const API_BASE = "http://localhost:4000";
+const API_BASE = "https://hok-studio-backend-production.up.railway.app";
 
-const callGenerationAPI = async ({ type, model, prompt, aspect, duration }) => {
+const callGenerationAPI = async ({ type, model, prompt, aspect, duration, character, voice_id, mode }) => {
   try {
     let endpoint = `${API_BASE}/api/generate/image`;
     if (model === "runway-gen3") endpoint = `${API_BASE}/api/runway/video`;
@@ -2570,7 +2570,7 @@ const callGenerationAPI = async ({ type, model, prompt, aspect, duration }) => {
     const res = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt, model, aspect, duration, type })
+      body: JSON.stringify({ prompt, model, aspect, duration, type, character: character || "", voice_id: voice_id || "", mode: mode || "" })
     });
 
     if (!res.ok) {
@@ -2602,7 +2602,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     av.addEventListener("click", async () => {
       if (confirm("Sign out?")) {
         await sb.auth.signOut();
-        credits = 9999;
+        credits = 0;
         updateAuthUI(null);
         renderGallery([]);
       }
@@ -2844,7 +2844,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div style="color:#9ca3af;">✓ All AI models</div>
           <div style="color:#9ca3af;">✓ Priority support</div>
         </div>
-        <button class="plan-btn">Get ${p.name}</button>
+        <button class="plan-btn" onclick="window.startCheckout('${p.name.toLowerCase()}_${cycle === 'monthly' ? 'monthly' : 'annual'}')">Get ${p.name}</button>
       </div>`).join("");
   };
   $("btnUpgrade")   ?.addEventListener("click", () => { openModal($("modalUpgrade")); renderPlans("monthly"); });
@@ -2864,10 +2864,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const camVideo=   $("imgCameraVideo"), camCanvas=$("imgCameraCanvas"), camSnap=$("btnImgTakePhoto");
     if (!btn) return;
 
-    const BASE={runway:45,"n-banana":25,sdxl:30,flux:28};
+    const BASE={"flux":12,"sdxl":16,"runway":200,"luma-ray":180,"kling":160,"n-banana":12};
     const MF={"text2image":1.0,"image2image":1.2};
     const AF={"9:16":1.1,"4:5":1.05,"1:1":1.0,"16:9":1.1};
-    const calcCost=()=>Math.round((BASE[modelEl?.value]??30)*4*(MF[modeEl?.value]??1)*(AF[aspectEl?.value]??1));
+    const calcCost=()=>Math.round((BASE[modelEl?.value]??20)*(MF[modeEl?.value]??1)*(AF[aspectEl?.value]??1));
     const render=()=>{ if(creditsEl) creditsEl.textContent=credits; if(costEl) costEl.textContent=calcCost(); };
     const applyMode=()=>{
       const t2i=modeEl?.value==="text2image";
@@ -2898,8 +2898,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (credits<cost) { alert("Not enough credits."); return; }
       if (modeEl?.value==="image2image"&&!fileEl?.files?.length) { alert("Please upload an image first."); return; }
       btn.disabled=true; if(loading) loading.style.display="flex";
-      const prompt=$("imgPrompt")?.value||"", model=modelEl?.value||"sdxl", aspect=aspectEl?.value||"1:1";
-      const result=await callGenerationAPI({type:"image",model,prompt,aspect});
+      if(preview) preview.innerHTML="<div style='padding:20px;text-align:center;color:#9ca3af;'><div class='spinner' style='margin:0 auto 8px;'></div>Generating image...</div>";
+      const prompt=$("imgPrompt")?.value||"", model=modelEl?.value||"sdxl", aspect=aspectEl?.value||"1:1", character=charEl?.value||"";
+      const result=await callGenerationAPI({type:"image",model,prompt,aspect,character});
       await deductCredits(cost);
       await saveGeneration({type:"image",prompt,model,aspect,cost,result_url:result.result_url});
       btn.disabled=false; if(loading) loading.style.display="none";
@@ -2918,7 +2919,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const btn=$("btnCreateVideo"),loading=$("vidLoading"),preview=$("previewBoxVideo");
     const btnCam=$("btnOpenCamera"),camBox=$("cameraBox"),vidEl=$("cameraVideo"),canvas=$("cameraCanvas"),btnSnap=$("btnTakePhoto"),fileIn=$("vidFile");
     if(!btn) return;
-    const BASE={"runway-gen3":80,"luma-ray":70,"kling":60,"n-banana":40};
+    const BASE={"runway-gen3":500,"luma-ray":400,"kling":400,"n-banana":120};
     const calcCost=()=>Math.round((BASE[modelEl?.value]??60)*(parseInt(durationEl?.value||"10")/10));
     const render=()=>{ if(creditsEl) creditsEl.textContent=credits; if(costEl) costEl.textContent=calcCost(); };
     modelEl?.addEventListener("change",render); durationEl?.addEventListener("change",render); modeEl?.addEventListener("change",render);
@@ -2926,15 +2927,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     let s=null;
     btnCam?.addEventListener("click",async()=>{ try{ s=await navigator.mediaDevices.getUserMedia({video:true}); vidEl.srcObject=s; camBox.style.display="block"; if(modeEl) modeEl.value="image2video"; }catch{ alert("Camera not available."); } });
     btnSnap?.addEventListener("click",()=>{ canvas.width=vidEl.videoWidth; canvas.height=vidEl.videoHeight; canvas.getContext("2d").drawImage(vidEl,0,0,canvas.width,canvas.height); canvas.toBlob(b=>{ const f=new File([b],"cam.jpg",{type:"image/jpeg"}); const dt=new DataTransfer(); dt.items.add(f); if(fileIn) fileIn.files=dt.files; if(s) s.getTracks().forEach(t=>t.stop()); camBox.style.display="none"; alert("Photo captured ✍️"); },"image/jpeg",0.92); });
-    btn.addEventListener("click",async()=>{
-      if(!currentUser){ openAuth("signin"); return; }
-      const cost=calcCost(); if(credits<cost){ alert("Not enough credits."); return; }
-      btn.disabled=true; if(loading) loading.style.display="flex";
-      const prompt=$("vidPrompt")?.value||"",model=modelEl?.value||"runway-gen3",duration=(durationEl?.value||"10")+"s",aspect=$("vidAspect")?.value||"16:9";
-      const result=await callGenerationAPI({type:"video",model,prompt,duration});
-      await deductCredits(cost); await saveGeneration({type:"video",prompt,model,duration,aspect,cost,result_url:result.result_url});
-      btn.disabled=false; if(loading) loading.style.display="none";
-      if(preview) preview.innerHTML=`<div style="padding:12px;border:1px solid #1f2937;border-radius:12px;background:#020617;"><div style="font-size:.85rem;color:#e5e7eb;font-weight:600;margin-bottom:6px;">${result.error?"❌ "+result.error:result.result_url?"✅ Done!":"✅ Processing..."}</div><div style="font-size:.78rem;color:#9ca3af;">Model: <strong>${model}</strong> · Duration: <strong>${duration}</strong><br>Charged: <strong style="color:#38bdf8;">${cost} credits</strong>${result.message?`<br><span style="color:#f97316;">${result.message}</span>`:""}</div></div>`;
+    btn.addEventListener("click", async () => {
+      if (!currentUser) { openAuth("signin"); return; }
+      const cost = calcCost();
+      if (credits < cost) { alert(`Need ${cost} credits. You have ${credits}. Please upgrade.`); return; }
+
+      btn.disabled = true;
+      if (loading) loading.style.display = "flex";
+      if (preview) preview.innerHTML = `<div style="padding:20px;text-align:center;color:#9ca3af;"><div class="spinner" style="margin:0 auto 8px;"></div>Generating video (30-120 seconds)...</div>`;
+
+      const prompt    = $("vidPrompt")?.value || $("vidStory")?.value || "";
+      const model     = modelEl?.value || "runway-gen3";
+      const duration  = durationEl?.value || "10";
+      const aspect    = $("vidAspect")?.value || "16:9";
+      const character = $("vidCharacter")?.value || "";
+      const mode      = modeEl?.value || "text2video";
+
+      const result = await callGenerationAPI({ type:"video", model, prompt, duration, aspect, character, mode });
+      await deductCredits(cost);
+      await saveGeneration({ type:"video", prompt, model, duration: duration+"s", aspect, cost, result_url: result.result_url });
+
+      btn.disabled = false;
+      if (loading) loading.style.display = "none";
+
+      if (preview) {
+        if (result.result_url) {
+          const vidSrc = result.result_url.startsWith("http") ? result.result_url : `${API_BASE}${result.result_url}`;
+          preview.innerHTML = `<video controls style="width:100%;border-radius:12px;margin-top:8px;"><source src="${vidSrc}"></video>`;
+        } else {
+          preview.innerHTML = `<div style="padding:12px;border:1px solid #f87171;border-radius:12px;background:#020617;color:#f87171;font-size:.85rem;">❌ ${result.error || "Generation failed"}</div>`;
+        }
+      }
     });
   })();
 
@@ -2961,15 +2984,36 @@ document.addEventListener("DOMContentLoaded", async () => {
     trimEl.addEventListener("input",render); modelEl?.addEventListener("change",render); modeEl?.addEventListener("change",render);
     [startEl,endEl].forEach(el=>el?.addEventListener("input",()=>{ const s=parseInt(startEl?.value||"0",10),e=parseInt(endEl?.value||"1",10); if(e<=s&&endEl) endEl.value=String(s+1); render(); }));
     render();
-    btn.addEventListener("click",async()=>{
-      if(!currentUser){ openAuth("signin"); return; }
-      const cost=calcCost(); if(credits<cost){ alert("Not enough credits."); return; }
-      btn.disabled=true; if(loading) loading.style.display="flex";
-      const prompt=$("audPrompt")?.value||"",model=modelEl?.value||"eleven-v2",duration=trimEl.value+"s";
-      const result=await callGenerationAPI({type:"audio",model,prompt});
-      await deductCredits(cost); await saveGeneration({type:"audio",prompt,model,duration,cost,result_url:result.result_url});
-      btn.disabled=false; if(loading) loading.style.display="none";
-      if(preview) preview.innerHTML=`<div style="padding:12px;border:1px solid #1f2937;border-radius:12px;background:#020617;"><div style="font-size:.85rem;color:#e5e7eb;font-weight:600;margin-bottom:6px;">${result.error?"❌ "+result.error:result.result_url?"✅ Done!":"✅ Processing..."}</div><div style="font-size:.78rem;color:#9ca3af;">Model: <strong>${model}</strong> · Duration: <strong>${duration}</strong><br>Charged: <strong style="color:#38bdf8;">${cost} credits</strong>${result.message?`<br><span style="color:#f97316;">${result.message}</span>`:""}</div></div>`;
+    btn.addEventListener("click", async () => {
+      if (!currentUser) { openAuth("signin"); return; }
+      const cost = calcCost();
+      if (credits < cost) { alert(`Need ${cost} credits. You have ${credits}. Please upgrade.`); return; }
+
+      btn.disabled = true;
+      if (loading) loading.style.display = "flex";
+      if (preview) preview.innerHTML = `<div style="padding:20px;text-align:center;color:#9ca3af;"><div class="spinner" style="margin:0 auto 8px;"></div>Generating audio...</div>`;
+
+      const prompt   = $("audPrompt")?.value || "";
+      const model    = modelEl?.value || "eleven-v2";
+      const duration = trimEl.value + "s";
+      const voice_id = $("audVoiceName")?.textContent || "Rachel";
+      const mode     = modeEl?.value || "text2audio";
+
+      const result = await callGenerationAPI({ type:"audio", model, prompt, voice_id, mode });
+      await deductCredits(cost);
+      await saveGeneration({ type:"audio", prompt, model, duration, cost, result_url: result.result_url });
+
+      btn.disabled = false;
+      if (loading) loading.style.display = "none";
+
+      if (preview) {
+        if (result.result_url) {
+          const audSrc = result.result_url.startsWith("http") ? result.result_url : `${API_BASE}${result.result_url}`;
+          preview.innerHTML = `<audio controls style="width:100%;margin-top:8px;"><source src="${audSrc}"></audio><p style="color:#34d399;font-size:.82rem;margin-top:4px;">✅ Audio generated!</p>`;
+        } else {
+          preview.innerHTML = `<div style="padding:12px;border:1px solid #f87171;border-radius:12px;background:#020617;color:#f87171;font-size:.85rem;">❌ ${result.error || "Generation failed"}</div>`;
+        }
+      }
     });
   })();
 
@@ -2988,15 +3032,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     let s=null;
     camBtn?.addEventListener("click",async()=>{ try{ s=await navigator.mediaDevices.getUserMedia({video:true}); camVideo.srcObject=s; camBox.style.display="block"; }catch{ alert("Camera not available."); } });
     camSnap?.addEventListener("click",()=>{ camCanvas.width=camVideo.videoWidth; camCanvas.height=camVideo.videoHeight; camCanvas.getContext("2d").drawImage(camVideo,0,0,camCanvas.width,camCanvas.height); camCanvas.toBlob(b=>{ const f=new File([b],"char.jpg",{type:"image/jpeg"}); const dt=new DataTransfer(); dt.items.add(f); if(fileInput) fileInput.files=dt.files; if(s) s.getTracks().forEach(t=>t.stop()); camBox.style.display="none"; alert("Photo captured ✍️"); },"image/jpeg",0.95); });
-    btn.addEventListener("click",async()=>{
-      if(!currentUser){ openAuth("signin"); return; }
-      const cost=calcCost(); if(credits<cost){ alert("Not enough credits."); return; }
-      btn.disabled=true; if(loading) loading.style.display="flex";
-      const prompt=$("charPrompt")?.value||"",model=modelEl?.value||"sdxl";
-      const result=await callGenerationAPI({type:"character",model,prompt});
-      await deductCredits(cost); await saveGeneration({type:"character",prompt,model,cost,result_url:result.result_url});
-      btn.disabled=false; if(loading) loading.style.display="none";
-      if(preview) preview.innerHTML=`<div style="padding:12px;border:1px solid #1f2937;border-radius:12px;background:#020617;"><div style="font-size:.85rem;color:#e5e7eb;font-weight:600;margin-bottom:6px;">${result.demo?"⏳ Queued — add API key":"✅ Character created"}</div><div style="font-size:.78rem;color:#9ca3af;">Model: <strong>${model}</strong><br>Charged: <strong style="color:#38bdf8;">${cost} credits</strong>${result.message?`<br><span style="color:#f97316;">${result.message}</span>`:""}</div></div>`;
+    btn.addEventListener("click", async () => {
+      if (!currentUser) { openAuth("signin"); return; }
+      const cost = calcCost();
+      if (credits < cost) { alert("Need " + cost + " credits. You have " + credits + ". Please upgrade."); return; }
+      btn.disabled = true;
+      if (loading) loading.style.display = "flex";
+      if (preview) preview.innerHTML = "<div style='padding:20px;text-align:center;color:#9ca3af;'><div class='spinner' style='margin:0 auto 8px;'></div>Creating character...</div>";
+      const prompt = $("charPrompt")?.value || "";
+      const model  = modelEl?.value || "flux";
+      const result = await callGenerationAPI({ type:"image", model, prompt, aspect:"1:1" });
+      await deductCredits(cost);
+      await saveGeneration({ type:"character", prompt, model, cost, result_url: result.result_url });
+      btn.disabled = false;
+      if (loading) loading.style.display = "none";
+      if (preview) {
+        if (result.result_url) {
+          const imgSrc = result.result_url.startsWith("http") ? result.result_url : API_BASE + result.result_url;
+          preview.innerHTML = "<img src='" + imgSrc + "' style='width:100%;border-radius:12px;margin-top:8px;' crossorigin='anonymous' />";
+        } else {
+          preview.innerHTML = "<div style='padding:12px;border:1px solid #f87171;border-radius:12px;background:#020617;color:#f87171;font-size:.85rem;'>❌ " + (result.error || "Generation failed") + "</div>";
+        }
+      }
     });
   })();
 
@@ -3048,7 +3105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   $("settingsSignOut")?.addEventListener("click", async () => {
     await sb.auth.signOut();
-    credits = 9999;
+    credits = 0;
     updateAuthUI(null);
     updateSettingsUI();
     renderGallery([]);
