@@ -2541,10 +2541,9 @@ const saveGeneration = async (gen) => {
 };
 
 const deductCredits = async (cost) => {
+  // Backend already deducts credits via requireAuth + deduct_credits RPC.
+  // Here we just update local state for UI responsiveness.
   credits = Math.max(0, credits - cost);
-  if (currentUser) {
-    await sb.from("profiles").upsert({ id: currentUser.id, credits });
-  }
   const usageCount = document.querySelector("#btnUsage .count");
   if (usageCount) usageCount.textContent = credits + "/9999";
 };
@@ -2562,14 +2561,23 @@ const API_BASE = "https://hok-studio-backend-production.up.railway.app";
 
 const callGenerationAPI = async ({ type, model, prompt, aspect, duration, character, voice_id, mode }) => {
   try {
+    // Ensure we always have a fresh auth token before calling the API
+    if (!window.authToken) {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session) window.authToken = session.access_token;
+    }
+
     let endpoint = `${API_BASE}/api/generate/image`;
     if (model === "runway-gen3") endpoint = `${API_BASE}/api/runway/video`;
     else if (model === "kling")  endpoint = `${API_BASE}/api/kling/video`;
     else if (["eleven-v2","eleven-v3","minimax-turbo","minimax-hd","suno"].includes(model)) endpoint = `${API_BASE}/api/generate/audio`;
 
+    const headers = { "Content-Type": "application/json" };
+    if (window.authToken) headers["Authorization"] = `Bearer ${window.authToken}`;
+
     const res = await fetch(endpoint, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({ prompt, model, aspect, duration, type, character: character || "", voice_id: voice_id || "", mode: mode || "" })
     });
 
@@ -2602,6 +2610,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     av.addEventListener("click", async () => {
       if (confirm("Sign out?")) {
         await sb.auth.signOut();
+        window.authToken = null;
         credits = 0;
         updateAuthUI(null);
         renderGallery([]);
@@ -2753,18 +2762,22 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ---- Check session ----
   const { data: { session } } = await sb.auth.getSession();
   if (session?.user) {
+    window.authToken = session.access_token;
     updateAuthUI(session.user);
     await loadUserCredits();
   } else {
+    window.authToken = null;
     updateAuthUI(null);
   }
 
   sb.auth.onAuthStateChange(async (_event, session) => {
     if (session?.user) {
+      window.authToken = session.access_token;
       updateAuthUI(session.user);
       await loadUserCredits();
       await loadUserGallery();
     } else {
+      window.authToken = null;
       updateAuthUI(null);
       renderGallery([]);
     }
@@ -3107,6 +3120,7 @@ const calcCost=()=>Math.round((BASE[modelEl?.value]??260)*(parseInt(durationEl?.
 
   $("settingsSignOut")?.addEventListener("click", async () => {
     await sb.auth.signOut();
+    window.authToken = null;
     credits = 0;
     updateAuthUI(null);
     updateSettingsUI();
